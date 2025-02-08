@@ -1,0 +1,2 @@
+C:/Users/alecb/repo/OOP/Lab 3/cvui/CMakeFiles/ALL_BUILD.dir
+C:/Users/alecb/repo/OOP/Lab 3/cvui/CMakeFiles/ZERO_CHECK.dir

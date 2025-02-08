@@ -1,0 +1,67 @@
+\doxysection{CJoystick\+Position.\+hpp}
+\hypertarget{_c_joystick_position_8hpp_source}{}\label{_c_joystick_position_8hpp_source}\mbox{\hyperlink{_c_joystick_position_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#define\ JOYSTICK\_X\_MIN\ 450\ }}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ JOYSTICK\_X\_MAX\ 3650\ }}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ JOYSTICK\_Y\_MIN\ 600\ }}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#define\ JOYSTICK\_Y\_MAX\ 3920\ }}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#ifndef\ JOYSTICK\_IGNORE\_LRVP}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#define\ JOYSTICK\_IGNORE\_LRVP\ 40\ }}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#ifndef\ JOYSTICK\_IGNORE\_URVP}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#define\ JOYSTICK\_IGNORE\_URVP\ 60\ }}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#endif}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00046\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{_c_joystick_position_8hpp_a238b716f3847ee37ee179034d45392c6}{JOYSTICK\_DIRECTION}}\ }
+\DoxyCodeLine{00047\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ JOYSTICK\_DIRECTION\_NORTH,\ }
+\DoxyCodeLine{00049\ \ \ \ \ JOYSTICK\_DIRECTION\_NORTHEAST,\ \ }
+\DoxyCodeLine{00050\ \ \ \ \ JOYSTICK\_DIRECTION\_EAST,\ }
+\DoxyCodeLine{00051\ \ \ \ \ JOYSTICK\_DIRECTION\_SOUTHEAST,\ }
+\DoxyCodeLine{00052\ \ \ \ \ JOYSTICK\_DIRECTION\_SOUTH,\ }
+\DoxyCodeLine{00053\ \ \ \ \ JOYSTICK\_DIRECTION\_SOUTHWEST,}
+\DoxyCodeLine{00054\ \ \ \ \ JOYSTICK\_DIRECTION\_WEST,}
+\DoxyCodeLine{00055\ \ \ \ \ JOYSTICK\_DIRECTION\_NORTHWEST,}
+\DoxyCodeLine{00056\ \ \ \ \ JOYSTICK\_DIRECTION\_CENTER}
+\DoxyCodeLine{00057\ \};}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00063\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_c_joystick_position_abaf7175367be3a7e67728e1dc838d0fe}{CJoystickPosition}}}
+\DoxyCodeLine{00064\ \{}
+\DoxyCodeLine{00065\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{int}\ m\_joystickx;}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{int}\ m\_joysticky;}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordtype}{bool}\ withinValues(\textcolor{keywordtype}{int}\ input,\ \textcolor{keywordtype}{int}\ min,\ \textcolor{keywordtype}{int}\ max);}
+\DoxyCodeLine{00088\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00095\ \ \ \ \ \mbox{\hyperlink{class_c_joystick_position_abaf7175367be3a7e67728e1dc838d0fe}{CJoystickPosition}}(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y);}
+\DoxyCodeLine{00096\ \ \ \ \ }
+\DoxyCodeLine{00101\ \ \ \ \ \mbox{\hyperlink{class_c_joystick_position_a2c4b2875bed7d940c2fab8c889f3017a}{\string~CJoystickPosition}}();}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_c_joystick_position_a70f91270c72e6e213298e19730a2734e}{getX}}();}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_c_joystick_position_ae956d6e358dbfe08e63c8a8ba03d031d}{getY}}();}
+\DoxyCodeLine{00116\ \ \ \ \ }
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_c_joystick_position_ad9217503671553daafd8f8e663b138cd}{percentX}}();}
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keywordtype}{int}\ percentY();}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00130\ \ \ \ \ \mbox{\hyperlink{_c_joystick_position_8hpp_a238b716f3847ee37ee179034d45392c6}{JOYSTICK\_DIRECTION}}\ \mbox{\hyperlink{class_c_joystick_position_a7a93c52bfe6d6ec903c02de2176b1f7e}{get\_direction}}();}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \ \ \ \ \mbox{\hyperlink{_c_joystick_position_8hpp_a238b716f3847ee37ee179034d45392c6}{JOYSTICK\_DIRECTION}}\ get\_simple\_direction();}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00140\ \ \ \ \ \mbox{\hyperlink{_c_joystick_position_8hpp_a238b716f3847ee37ee179034d45392c6}{JOYSTICK\_DIRECTION}}\ \mbox{\hyperlink{class_c_joystick_position_af254c005ea5158dcdd0b923df0947a0d}{get\_opposite\_direction}}();}
+\DoxyCodeLine{00141\ \};}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \textcolor{keyword}{namespace\ }direction\_op}
+\DoxyCodeLine{00144\ \{}
+\DoxyCodeLine{00145\ \ \ \ \ \mbox{\hyperlink{_c_joystick_position_8hpp_a238b716f3847ee37ee179034d45392c6}{JOYSTICK\_DIRECTION}}\ get\_opposite\_direction(\mbox{\hyperlink{_c_joystick_position_8hpp_a238b716f3847ee37ee179034d45392c6}{JOYSTICK\_DIRECTION}}\ input);}
+\DoxyCodeLine{00146\ \}}
+
+\end{DoxyCode}
