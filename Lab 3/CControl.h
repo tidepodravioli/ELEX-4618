@@ -22,7 +22,7 @@
 #include <vector>
 
 #define CHAR_ARRAY_MAX_SIZE 32 ///< Maximum size for the serial input buffer
-#define SERIAL_PORT_DELAY 1 ///< Wait this long (in ms) before checking for a response on the serial bus again
+#define SERIAL_PORT_DELAY 5 ///< Wait this long (in ms) before checking for a response on the serial bus again
 #define SERIAL_PORT_TIMEOUT 2000 ///< Time before the serial monitor times out
 #define SERIAL_PORT_CHECK_TO_MAX 15 ///< When finding a port to connect to, check from COM0 to this number
 
@@ -39,8 +39,20 @@
 #define CHAR_SPACE ' ' ///< Represents a space character literal
 #define BLANK_STRING "" ///< Represents a blank string literal
 
-#define COM_CHECK_ALIVE "G Q" ///< The "check if alive" message (for seeing if the interface is active)
-#define COM_ACK_ALIVE "A Q" ///< The expected response to the "check if alive" message
+#define COM_CHECK_ALIVE "G -1 0" ///< The "check if alive" message (for seeing if the interface is active)
+#define COM_ACK_ALIVE "A -1 0 -1" ///< The expected response to the "check if alive" message
+
+#define CH_SWITCH_S1 0
+#define CH_SWITCH_S2 1
+
+#define CH_RGBLED_RED_PIN 2
+#define CH_RGBLED_GRN_PIN 3
+#define CH_RGBLED_BLU_PIN 4
+
+#define CH_JOYSTICK_X 0
+#define CH_JOYSTICK_Y 1
+
+#define SERVO_PORT0 0
 
 using namespace std;
 

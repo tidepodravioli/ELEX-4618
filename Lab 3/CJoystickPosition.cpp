@@ -1,5 +1,11 @@
 #include "CJoystickPosition.hpp"
 
+CJoystickPosition::CJoystickPosition()
+{
+    m_joystickx = (JOYSTICK_X_MAX - JOYSTICK_X_MIN) / 2;
+    m_joysticky = (JOYSTICK_Y_MAX - JOYSTICK_Y_MIN) / 2;
+}
+
 CJoystickPosition::CJoystickPosition(int x, int y)
 {
     m_joystickx = x;

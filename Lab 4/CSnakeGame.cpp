@@ -32,8 +32,8 @@ void CSnakeGame::gpio()
         m_currentDirection = currentPosition->get_simple_direction();
     }
     
-    m_stateS1 = m_port.get_button(0);
-    m_stateS2 = m_port.get_button(1);
+    m_stateS1 = m_port.get_button(CH_SWITCH_S1);
+    m_stateS2 = m_port.get_button(CH_SWITCH_S2);
 }
 
 void CSnakeGame::update()
@@ -155,19 +155,19 @@ std::string CSnakeGame::getSnakeColourName()
 
 void CSnakeGame::changeLED()
 {
-    m_port.set_data(TYPE_DIGITAL, RED_LED_CH, 0);
-    m_port.set_data(TYPE_DIGITAL, GREEN_LED_CH, 0);
-    m_port.set_data(TYPE_DIGITAL, BLUE_LED_CH, 0);
+    m_port.set_data(TYPE_ANALOG, CH_RGBLED_RED_PIN, 0);
+    m_port.set_data(TYPE_ANALOG, CH_RGBLED_GRN_PIN, 0);
+    m_port.set_data(TYPE_ANALOG, CH_RGBLED_BLU_PIN, 0);
     switch(m_currentSnakeColour)
     {
         case SNAKE_RED:
-            m_port.set_data(TYPE_DIGITAL, RED_LED_CH, 1);
+            m_port.set_data(TYPE_ANALOG, CH_RGBLED_RED_PIN, LED_BRIGHTNESS);
             break;
         case SNAKE_GREEN:
-            m_port.set_data(TYPE_DIGITAL, GREEN_LED_CH, 1);
+            m_port.set_data(TYPE_ANALOG, CH_RGBLED_GRN_PIN, LED_BRIGHTNESS);
             break;
         case SNAKE_BLUE:
-            m_port.set_data(TYPE_DIGITAL, BLUE_LED_CH, 1);
+            m_port.set_data(TYPE_ANALOG, CH_RGBLED_BLU_PIN, LED_BRIGHTNESS);
             break;
     }
 }

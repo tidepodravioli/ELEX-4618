@@ -4,10 +4,6 @@
 #define SCL_SNAKE_GREEN cv::Scalar(0,255,0) ///< The colour green as a cv::Scalar
 #define SCL_SNAKE_BLUE cv::Scalar(255,0,0)  ///< The colour blue as a cv::Scalar
 
-#define RED_LED_CH 2
-#define GREEN_LED_CH 3
-#define BLUE_LED_CH 4
-
 #include "CBase4618.hpp"
 #include <conio.h>
 #include <string>
@@ -19,6 +15,8 @@
 #define PROJECT_NAME "Lab 4 - Snake V1"
 
 #define SNAKE_CANVAS_DIVISOR 10
+
+#define LED_BRIGHTNESS 20 ///< Analog value to write to each LED (out of 255)
 
 /**
  * @brief Enum for the colours of the snake
@@ -113,6 +111,10 @@ private:
      */
     void changeLED();
 
+    /**
+     * @brief Moves the snake based on the implied direction of the joystick
+     * 
+     */
     void moveSnake();
 public:
     /**

@@ -86,6 +86,7 @@ private:
      */
     bool withinValues(int input, int min, int max);
 public:
+    CJoystickPosition();
     /**
      * @brief Construct a new CJoystickPosition object
      * 

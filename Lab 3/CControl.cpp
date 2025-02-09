@@ -182,8 +182,8 @@ bool CControl::readMessage(string &result)
 CJoystickPosition CControl::get_analog(bool &pass)
 {
   int _result1, _result2;
-  bool success = get_data(TYPE_ANALOG, 0, _result1);
-  success &= get_data(TYPE_ANALOG, 1, _result2);
+  bool success = get_data(TYPE_ANALOG, CH_JOYSTICK_X, _result1);
+  success &= get_data(TYPE_ANALOG, CH_JOYSTICK_Y, _result2);
 
   if(success)
   {
@@ -193,7 +193,7 @@ CJoystickPosition CControl::get_analog(bool &pass)
   else 
   {
     pass = false;
-    return CJoystickPosition(-1,-1);
+    return CJoystickPosition();
   }
 }
 
@@ -202,15 +202,16 @@ bool CControl::get_button(int channel)
   int result = -1;
   get_data(TYPE_DIGITAL, channel, result);
 
-  if(result == 0)
+  if(result == 1)
   {
     m_lastDebounceTimes[channel] = chrono::steady_clock::now();
     m_buttonActive[channel] = false;
     return false;
   }
-  else if(result == 1)
+  else if(result == 0)
   {
     auto elapsed_time = chrono::steady_clock::now() - m_lastDebounceTimes[channel];
+    //cout << chrono::duration_cast<std::chrono::milliseconds>(elapsed_time).count() << endl;
     if(!m_buttonActive[channel] && chrono::duration_cast<std::chrono::milliseconds>(elapsed_time).count() > BUTTON_DEBOUNCE_TIMEOUT)
     {
       m_buttonActive[channel] = true;
