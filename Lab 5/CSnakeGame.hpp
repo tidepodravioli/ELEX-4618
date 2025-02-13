@@ -5,14 +5,16 @@
 #define SCL_SNAKE_BLUE cv::Scalar(255,0,0)  ///< The colour blue as a cv::Scalar
 
 #include "CBase4618.hpp"
+#include <stdlib.h>
 #include <conio.h>
 #include <string>
 #include <sstream>
 #include <vector>
 #include <thread>
 #include <mutex>
+#include <time.h>
 
-#define BUTTON_DEBOUNCE_TIMEOUT 50
+#define BUTTON_DEBOUNCE_TIMEOUT 25
 
 #define PROJECT_NAME "Lab 4 - Snake V1"
 
@@ -42,6 +44,13 @@ enum SNAKE_DIRECTION
     SNAKE_DIRECTION_STOP
 };
 
+enum SNAKE_STATUS
+{
+    SNAKE_DEAD,
+    SNAKE_ALIVE,
+    SNAKE_APPLE
+};
+
 /**
  * @brief An instance of the game Snake, implemented using CBase4618 as the base class
  * 
@@ -49,11 +58,27 @@ enum SNAKE_DIRECTION
 class CSnakeGame : public CBase4618
 {
 private:
+//============================================= GPIO! =============================================
+
     /**
      * @brief Direction that the snake is going
      * 
      */
     SNAKE_DIRECTION m_currentDirection;
+
+    /**
+     * @brief Represents whether or not S1 was pressed
+     * 
+     */
+    bool m_stateS1 = false;
+
+    /**
+     * @brief Represents whether or not S2 was pressed
+     * 
+     */
+    bool m_stateS2 = false;
+
+//===================================== SNAKE PROPERTIES! =============================================
 
     /**
      * @brief The current colour of the snake, as represented as a SNAKE_COLOUR enum
@@ -73,6 +98,8 @@ private:
      */
     vector<cv::Point_<int>> m_snakeSegments;
 
+    cv::Point_<int> m_appleLocation;
+
     /**
      * @brief The size of the canvas, as given in the constructor.
      * Used by other functions for collision and window math.
@@ -81,37 +108,49 @@ private:
     cv::Size m_canvasSize;
 
     /**
+     * @brief The size of the steps(in pixels) the snake is supposed to take
+     * 
+     */
+    float m_stepSize = SNAKE_CANVAS_DIVISOR;
+
+//============================================= FLAGS! =============================================
+    /**
      * @brief Flag for ending the program.
      * Program is ended by run() if this is true
      * 
      */
-    bool m_endProgram = false;
+    bool m_flagEndProgram = false;
 
     /**
      * @brief Flag for resetting the game.
      * Program is reset by update() if this is true
      * 
      */
-    bool m_resetProgram = false;
+    bool m_flagResetProgram = false;
 
     /**
-     * @brief Represents whether or not S1 was pressed
+     * @brief Flag for adding another segment to the snake.
+     * Is made true by validateSnake() when the player scores.
+     * Is reset by updateSnake()
      * 
      */
-    bool m_stateS1 = false;
+    bool m_flagAddToSnake = false;
 
-    /**
-     * @brief Represents whether or not S2 was pressed
-     * 
-     */
-    bool m_stateS2 = false;
+    bool m_flagGameOver = false;
 
-    std::chrono::system_clock::time_point m_lastUpdate;
-    std::chrono::system_clock::time_point m_updateStartTime;
-    std::chrono::system_clock::time_point m_updateEndTime;
-    std::chrono::system_clock::time_point m_sleepUntil;
+    bool m_flagApple = false;
+
+    
+//============================================= TIMING! =============================================
+
+    chrono::system_clock::time_point m_lastDraw;
+    chrono::system_clock::time_point m_drawStartTime;
+    chrono::system_clock::time_point m_drawSleepUntil;
+
+    chrono::system_clock::time_point m_nextApple;
+
     float m_fpsRate = 30;
-    float m_selectedFPS = 30;
+    float m_updatePeriod = 100;
     
     /**
      * @brief Resets the program to its original values at construction
@@ -132,30 +171,54 @@ private:
      */
     void changeLED();
 
+//===================================== SNAKE MANIPULATION! =============================================
     /**
      * @brief Moves the snake based on the implied direction of the joystick
      * 
      */
-    void moveSnake();
+    void updateSnake(bool addToSnake = false);
 
     /**
-     * @brief 
+     * @brief Validates the new snake head's position to see if it's valid or results in the snake dying
      * 
-     * @param newHead 
-     * @return true 
-     * @return false 
+     * @param newHead The location of the new snake head
+     * @return SNAKE_STATUS the current status of the snake
      */
-    bool validateSnake(cv::Point_<int> newHead);
+    SNAKE_STATUS validateSnake(cv::Point_<int> newHead);
 
+    /**
+     * @brief Gives the direction the snake is supposed to be going based on the position of the joystick
+     * 
+     * @param input The CJoystickPosition representing the current position of the joystick
+     * @param currentDirection The current direction the snake is going
+     * @return SNAKE_DIRECTION The new direction the snake should be going
+     */
     SNAKE_DIRECTION analogToSnake(CJoystickPosition input, SNAKE_DIRECTION currentDirection);
+
+    /**
+     * @brief Returns the opposite direction of the given input direction
+     * 
+     * @param direction The direction we are looking for the opposite of
+     * @return SNAKE_DIRECTION The opposite direction of 'direction'
+     */
     SNAKE_DIRECTION getOpposite(SNAKE_DIRECTION direction);
 
+//============================================= MULTITHREADING! =============================================
+    /**
+     * @brief Mutex preventing update() and draw() from accessing the snake data at the same time
+     * Initialized in the constructor.
+     * 
+     */
     std::mutex * snake_data;
 
     void run_gpio();
     void run_update();
+
+//============================================= SUPPORTING FUNCTIONS! =============================================
     void render_ui();
     void update_colour();
+
+    void createApple();
 public:
     /**
      * @brief Construct a new CSnakeGame object
