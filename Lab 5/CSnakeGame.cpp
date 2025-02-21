@@ -9,7 +9,6 @@ CSnakeGame::CSnakeGame(cv::Size canvasSize, int comPort)
     m_canvasSize = canvasSize;
     m_appleLocation = cv::Point(-1,-1);
 
-    cvui::init(PROJECT_NAME);
     m_port.init_com(comPort);
 
     snake_data = new mutex();
@@ -45,6 +44,7 @@ void CSnakeGame::update_colour()
     if(m_stateS2)
     {
         m_currentSnakeColour = static_cast<SNAKE_COLOUR>(((int)m_currentSnakeColour + 1) % 3);
+        m_flagUpdateColour = true;
         
         switch(m_currentSnakeColour)
         {
@@ -63,6 +63,7 @@ void CSnakeGame::update_colour()
 
 void CSnakeGame::update()
 {
+
     m_flagResetProgram += m_stateS1;
     if(m_flagResetProgram) reset();
 
@@ -72,29 +73,30 @@ void CSnakeGame::update()
 
         updateSnake(m_flagAddToSnake);
         createApple();
-        SNAKE_STATUS snakeStatus = validateSnake(m_snakeSegments.back());
-        if(snakeStatus == SNAKE_DEAD) m_flagGameOver = true;
-        else if(snakeStatus == SNAKE_APPLE)
-        {
-            cout << "APPLE" << endl;
-            m_flagApple = false;
-            m_flagAddToSnake = true;
-            m_nextApple = chrono::system_clock::now() + chrono::seconds(5);
-        }
-
-        this_thread::sleep_until(runUntil);
+        this_thread::sleep_until(runUntil); //fixes the update rate
     }
     else
     {
-        cout << "Game over" << endl;   
+        //cout << "Game over" << endl;   
     }
 }
 
 void CSnakeGame::draw()
 {
+    snake_data->lock();
+    //frame rate measurement setup
+    auto thisFrameStartTime = chrono::system_clock::now();
+    auto frameTime = thisFrameStartTime - m_drawStartTime;
+
+    m_fpsRate = 1000000.0/chrono::duration_cast<chrono::microseconds>(frameTime).count();
+    m_drawSleepUntil = thisFrameStartTime + chrono::microseconds(1000000/TARGET_FRAME_RATE) - chrono::milliseconds(THREAD_SLEEP_OFFSET);
+    m_drawStartTime = thisFrameStartTime;
+
     m_canvas = cv::Mat::zeros(m_canvasSize, CV_8UC3);
 
-    
+    //Render UI
+    render_ui();
+
     // Render snake
     for(int segmentIndex = 0; segmentIndex < m_snakeSegments.size(); segmentIndex++)
     {
@@ -102,7 +104,7 @@ void CSnakeGame::draw()
         cv::Rect pixel((int)m_stepSize * segment.x, (int)m_stepSize * segment.y, (int)m_stepSize, (int)m_stepSize);
         m_canvas(pixel) = m_snakeColour;
     }
-    
+    //Render apple
     if(m_flagApple)
     {
         const int appleX = (int)(m_appleLocation.x * (m_stepSize));
@@ -112,12 +114,20 @@ void CSnakeGame::draw()
         cv::Rect apple(appleX, appleY, (int)m_stepSize, (int)m_stepSize);
         m_canvas(apple) = m_snakeColour;
     }
+    snake_data->unlock();
 
-    //Render UI
-    render_ui();
     cvui::imshow(PROJECT_NAME, m_canvas);
 
     if(cv::waitKey(1) == 'q') m_flagEndProgram = true;
+
+    //limit frame rate by sleeping until 1/30 of a second has passed since the start of the frame drawing
+    this_thread::sleep_until(m_drawSleepUntil);
+    while (std::chrono::system_clock::now() < m_drawSleepUntil) {
+        // Optionally yield CPU
+        std::this_thread::yield();
+    }
+
+
 }
 
 void CSnakeGame::run()
@@ -128,26 +138,10 @@ void CSnakeGame::run()
     thread update_t(&CSnakeGame::run_update, this);
     update_t.detach();
 
-    do
-    {
-        //frame rate measurement setup
-        auto thisFrameStartTime = chrono::system_clock::now();
-        auto frameTime = thisFrameStartTime - m_drawStartTime;
+    thread draw_t(&CSnakeGame::run_draw, this);
+    draw_t.detach();
 
-        m_fpsRate = 1000000.0/chrono::duration_cast<chrono::microseconds>(frameTime).count();
-        m_drawSleepUntil = thisFrameStartTime + chrono::microseconds(1000000/TARGET_FRAME_RATE) - chrono::milliseconds(THREAD_SLEEP_OFFSET);
-        m_drawStartTime = thisFrameStartTime;
-
-        draw();
-
-        //limit frame rate by sleeping until 1/30 of a second has passed since the start of the frame drawing
-        this_thread::sleep_until(m_drawSleepUntil);
-        while (std::chrono::system_clock::now() < m_drawSleepUntil) {
-            // Optionally yield CPU
-            std::this_thread::yield();
-        }
-    }
-    while(!m_flagEndProgram);
+    while(!m_flagEndProgram){}
 }
 
 void CSnakeGame::run_gpio()
@@ -166,6 +160,15 @@ void CSnakeGame::run_update()
     }
 }
 
+void CSnakeGame::run_draw()
+{
+    cvui::init(PROJECT_NAME);
+    while(!m_flagEndProgram)
+    {
+        draw();
+    }
+}
+
 void CSnakeGame::reset()
 {
     m_snakeColour = SCL_SNAKE_RED;
@@ -175,13 +178,18 @@ void CSnakeGame::reset()
     m_snakeSegments.clear();
     for(int segment = 0; segment < 20; segment++)
     {
-        m_snakeSegments.push_back(cv::Point((m_canvasSize.width / SNAKE_CANVAS_DIVISOR - 1) / 2 + segment,
-            (m_canvasSize.height / SNAKE_CANVAS_DIVISOR - 1) / 2));
+        const int midWidth = (m_canvasSize.width / (int)m_stepSize - 1) / 2;
+        const int midHeight = (m_canvasSize.height / (int)m_stepSize - 1) / 2;
+
+        const cv::Point newSegment(midWidth + segment, midHeight);
+        m_snakeSegments.push_back(newSegment);
+        print_point(newSegment);
     }
 
     m_currentDirection = SNAKE_DIRECTION_STOP;
     m_flagResetProgram = false;
     m_flagGameOver = false;
+    m_snakeScore = 0;
 }
 
 void CSnakeGame::render_ui()
@@ -192,8 +200,7 @@ void CSnakeGame::render_ui()
         << " (" << m_canvasSize.width << ", "
         << m_canvasSize.height << ") ("
         << setprecision(8) << m_fpsRate << "FPS)";
-    //cout << setprecision(8) << m_fpsRate << endl;
-    cvui::window(200,80, windowLabel.str());
+    cvui::window(200, 200, windowLabel.str());
     cvui::endRow();
 
     cvui::beginRow(m_canvas, 15, 40, -1, -1, 5);
@@ -202,15 +209,28 @@ void CSnakeGame::render_ui()
     cvui::text(colourLabel.str());
     cvui::endRow();
 
-    cvui::beginRow(m_canvas, 15, 60, -1, 10, 5);
-    cvui::trackbar(m_canvas, 16, 60, 180, &m_stepSize, (float)1.0, (float)20.0);
+    cvui::beginRow(m_canvas, 15, 60, -1, -1, 5);
+    stringstream scoreLabel;
+    scoreLabel << "Score : " << m_snakeScore;
+    cvui::text(scoreLabel.str());
     cvui::endRow();
 
-    cvui::beginRow(m_canvas, 15, 90, -1, 10, 5);
-    cvui::trackbar(m_canvas, 16, 90, 180, &m_updatePeriod, (float)10, (float)500);
+    cvui::beginRow(m_canvas, 75, 80, -1, 10, 5);
+    cvui::text("Step Size");
+    bool sizeUpdated = cvui::trackbar(m_canvas, 16, 80, 180, &m_stepSize, (float)1.05, (float)20.0);
+    if(sizeUpdated)
+    {
+        extrapolateSnake(m_lastStepSize, (int)m_stepSize);
+        m_lastStepSize = (int)m_stepSize;
+    }
     cvui::endRow();
 
-    cvui::beginRow(m_canvas, 15, 140, -1, 10, 5);
+    cvui::beginRow(m_canvas, 60, 130, -1, 10, 5);
+    cvui::text("Snake Speed");
+    cvui::trackbar(m_canvas, 16, 130, 180, &m_updatePeriod, (float)10, (float)500);
+    cvui::endRow();
+
+    cvui::beginRow(m_canvas, 15, 180, -1, 10, 5);
     if(cvui::button("Reset"))
     {
         m_flagResetProgram = true;
@@ -221,6 +241,14 @@ void CSnakeGame::render_ui()
         m_flagEndProgram = true;
     }
     cvui::endRow();
+
+    if(m_flagGameOver)
+    {
+        const int centerX = m_canvasSize.width / 2;
+        const int centerY = m_canvasSize.height / 2;
+
+        cvui::text(m_canvas, centerX, centerY, "GAME OVER", 0.5);
+    }
 }
 
 std::string CSnakeGame::getSnakeColourName()
@@ -241,69 +269,80 @@ std::string CSnakeGame::getSnakeColourName()
 
 void CSnakeGame::changeLED()
 {
-    m_port.set_data(TYPE_ANALOG, CH_RGBLED_RED_PIN, 0);
-    m_port.set_data(TYPE_ANALOG, CH_RGBLED_GRN_PIN, 0);
-    m_port.set_data(TYPE_ANALOG, CH_RGBLED_BLU_PIN, 0);
-    switch(m_currentSnakeColour)
+    if(m_flagUpdateColour)
     {
-        case SNAKE_RED:
-            m_port.set_data(TYPE_ANALOG, CH_RGBLED_RED_PIN, LED_BRIGHTNESS);
-            break;
-        case SNAKE_GREEN:
-            m_port.set_data(TYPE_ANALOG, CH_RGBLED_GRN_PIN, LED_BRIGHTNESS);
-            break;
-        case SNAKE_BLUE:
-            m_port.set_data(TYPE_ANALOG, CH_RGBLED_BLU_PIN, LED_BRIGHTNESS);
-            break;
+        m_port.set_data(TYPE_ANALOG, CH_RGBLED_RED_PIN, 0);
+        m_port.set_data(TYPE_ANALOG, CH_RGBLED_GRN_PIN, 0);
+        m_port.set_data(TYPE_ANALOG, CH_RGBLED_BLU_PIN, 0);
+        switch(m_currentSnakeColour)
+        {
+            case SNAKE_RED:
+                m_port.set_data(TYPE_ANALOG, CH_RGBLED_RED_PIN, LED_BRIGHTNESS);
+                break;
+            case SNAKE_GREEN:
+                m_port.set_data(TYPE_ANALOG, CH_RGBLED_GRN_PIN, LED_BRIGHTNESS);
+                break;
+            case SNAKE_BLUE:
+                m_port.set_data(TYPE_ANALOG, CH_RGBLED_BLU_PIN, LED_BRIGHTNESS);
+                break;
+        }
+
+        m_flagUpdateColour = false;
     }
+    
 }
 
 void CSnakeGame::updateSnake(bool addToSnake)
 {
     cv::Point head = m_snakeSegments.back();
     cv::Point newHead = cv::Point(0,0);
-    bool valid = false;
-    if(m_currentDirection == SNAKE_DIRECTION_NORTH)
+    
+    switch(m_currentDirection)
     {
-        if(head.y > 0)
-        {
+        case SNAKE_DIRECTION_NORTH:
             newHead = cv::Point(head.x, head.y - 1);
-            valid = true;
-        }
-    }
-    else if(m_currentDirection == SNAKE_DIRECTION_EAST)
-    {
-        if(head.x < (m_canvasSize.width / (int)m_stepSize) - 1)
-        {
+            break;
+        case SNAKE_DIRECTION_EAST:
             newHead = cv::Point(head.x + 1, head.y);
-            valid = true;
-        }
-    }
-    else if(m_currentDirection == SNAKE_DIRECTION_SOUTH)
-    {
-        if(head.y < (m_canvasSize.height / (int)m_stepSize) - 1)
-        {
+            break;
+        case SNAKE_DIRECTION_SOUTH:
             newHead = cv::Point(head.x, head.y + 1);
-            valid = true;
-        }
-    }
-    else if(m_currentDirection == SNAKE_DIRECTION_WEST)
-    {
-        if(head.x > 0)
-        {
+            break;
+        case SNAKE_DIRECTION_WEST:
             newHead = cv::Point(head.x - 1, head.y);
-            valid = true;
-        }
-    }
+            break;
+        default:
+            newHead = head;
+            break;
 
-    if(valid)
+    }
+    
+    if(head != newHead)
     {
-        m_snakeSegments.push_back(newHead);
-        if(!addToSnake)
+        SNAKE_STATUS snakeStatus = validateSnake(newHead);
+
+        if(snakeStatus != SNAKE_DEAD)
         {
-            m_snakeSegments.erase(m_snakeSegments.begin());
+            m_snakeSegments.push_back(newHead);
+            if(!addToSnake)
+            {
+                m_snakeSegments.erase(m_snakeSegments.begin());
+            }
+            m_flagAddToSnake = false;
+
+            if(snakeStatus == SNAKE_APPLE)
+            {
+                cout << "APPLE" << endl;
+                m_flagApple = false;
+                m_flagAddToSnake = true;
+                m_snakeScore++;
+                m_nextApple = chrono::system_clock::now() + chrono::seconds(5);
+            }
         }
-        m_flagAddToSnake = false;
+        else
+        {
+            m_flagGameOver = true;
+        }
     }
 }
 
@@ -311,12 +350,36 @@ SNAKE_STATUS CSnakeGame::validateSnake(cv::Point_<int> newHead)
 {
     for(int segment = 0; segment < m_snakeSegments.size() - 1; segment++)
     {
+        
         if(newHead == m_snakeSegments[segment])
+        {
+            cout << "DEAD : Snake ate tail" << endl;
             return SNAKE_DEAD;
+        }
+
     }
 
     if(newHead == m_appleLocation && m_flagApple)
         return SNAKE_APPLE;
+
+    const int x_gridLimit = (m_canvasSize.width / (int)m_stepSize) - 1;
+    const int y_gridLimit = (m_canvasSize.height / (int)m_stepSize) - 1;
+
+    const int headX = newHead.x;
+    const int headY = newHead.y;
+
+
+    if(0 > headX ||  headX > x_gridLimit)
+    {
+        return SNAKE_DEAD;
+        cout << "DEAD : Snake out of bounds (X)" << endl;
+    }
+
+    else if(0 > headY || headY > y_gridLimit)
+    {
+        return SNAKE_DEAD;
+        cout << "DEAD : Snake out of bounds (Y)" << endl;
+    }
 
     return SNAKE_ALIVE;
 }
@@ -378,4 +441,55 @@ void CSnakeGame::createApple()
         }
     }
     
+}
+
+void CSnakeGame::extrapolateSnake(int originalStep, int newStep)
+{
+    cout << "Extrapolation" << endl;
+    const int canvasX = m_canvasSize.width;
+    const int canvasY = m_canvasSize.height;
+
+    for(int segment = 0; segment < m_snakeSegments.size(); segment++)
+    {
+        const int segX = m_snakeSegments[segment].x;
+        const int segY = m_snakeSegments[segment].y;
+
+        const float o_percentX = (float)segX / (canvasX / originalStep);
+        const float o_percentY = (float)segY / (canvasY / originalStep);
+
+        const int new_segX = (int)(o_percentX * (canvasX / newStep));
+        const int new_segY = (int)(o_percentY * (canvasY / newStep));
+
+        const cv::Point_<int> extrapolatedSegment(new_segX, new_segY);
+
+        m_snakeSegments[segment] = extrapolatedSegment;
+        print_point(extrapolatedSegment);
+    }
+
+    if(m_flagApple)
+    {
+        const int appleX = m_appleLocation.x;
+        const int appleY = m_appleLocation.y;
+
+        const float o_percentX = (float)appleX / (canvasX / originalStep);
+        const float o_percentY = (float)appleY / (canvasY / originalStep);
+
+        const int new_segX = (int)(o_percentX * (canvasX / newStep));
+        const int new_segY = (int)(o_percentY * (canvasY / newStep));
+
+        const cv::Point_<int> extrapolatedSegment(new_segX, new_segY);
+
+        m_appleLocation = extrapolatedSegment;
+    }
+}
+
+void CSnakeGame::print_point(cv::Point_<int> point)
+{
+    stringstream formatbuilder;
+    formatbuilder << "("
+        << point.x << ", "
+        << point.y << ")"
+        << endl;
+
+    cout << formatbuilder.str();
 }

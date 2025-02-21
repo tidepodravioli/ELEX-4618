@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['cbase4618_0',['CBase4618',['../class_c_base4618.html',1,'']]],
-  ['csnakegame_1',['CSnakeGame',['../class_c_snake_game.html',1,'CSnakeGame'],['../class_c_snake_game.html#af60ed03a512c9d6db54800983b1f92e8',1,'CSnakeGame::CSnakeGame()']]]
+  ['analogtosnake_0',['analogToSnake',['../class_c_snake_game.html#aaddb40aa750a22ffeaf041fee306dbc7',1,'CSnakeGame']]],
+  ['apple_5fregen_5ftime_1',['APPLE_REGEN_TIME',['../_c_snake_game_8hpp.html#a825f1c9798310c5cc5d2a3c74ae1cb5f',1,'CSnakeGame.hpp']]]
 ];

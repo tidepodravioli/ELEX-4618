@@ -1,3 +1,12 @@
+/**
+ * @file CSnakeGame.hpp
+ * @author Rafael Banalan  A01367816 4S (abanalan@my.bcit.ca)
+ * @version 0.1
+ * @date 2025-02-14
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
 #pragma once
 
 #define SCL_SNAKE_RED cv::Scalar(0,0,255) ///< The colour red as a cv::Scalar
@@ -14,16 +23,17 @@
 #include <mutex>
 #include <time.h>
 
-#define BUTTON_DEBOUNCE_TIMEOUT 25
+#define BUTTON_DEBOUNCE_TIMEOUT 25 ///< Debounce for the buttons in gpio (in ms)
 
-#define PROJECT_NAME "Lab 4 - Snake V1"
+#define PROJECT_NAME "Lab 5 - Snake V2" ///< The program name to show at the top of the window
 
-#define SNAKE_CANVAS_DIVISOR 10
+#define SNAKE_CANVAS_DIVISOR 10 ///< Default step size at start of game (in pixels)
+#define APPLE_REGEN_TIME 5 ///< Time before a new apple is drawn (in seconds)
 
 #define LED_BRIGHTNESS 20 ///< Analog value to write to each LED (out of 255)
 
-#define TARGET_FRAME_RATE 30
-#define THREAD_SLEEP_OFFSET 5
+#define TARGET_FRAME_RATE 30 ///< Target frame rate for draw() (in fps)
+#define THREAD_SLEEP_OFFSET 5 ///< Amount to be short by for time so the thread can yield (in ms)
 
 /**
  * @brief Enum for the colours of the snake
@@ -35,6 +45,10 @@ enum SNAKE_COLOUR{
     SNAKE_BLUE
 };
 
+/**
+ * @brief Enum for the possible directions the snake can go
+ * 
+ */
 enum SNAKE_DIRECTION
 {
     SNAKE_DIRECTION_NORTH, 
@@ -44,6 +58,10 @@ enum SNAKE_DIRECTION
     SNAKE_DIRECTION_STOP
 };
 
+/**
+ * @brief Enum for the current status of a snake update
+ * 
+ */
 enum SNAKE_STATUS
 {
     SNAKE_DEAD,
@@ -58,7 +76,7 @@ enum SNAKE_STATUS
 class CSnakeGame : public CBase4618
 {
 private:
-//============================================= GPIO! =============================================
+    //============================================= GPIO! =============================================
 
     /**
      * @brief Direction that the snake is going
@@ -78,7 +96,7 @@ private:
      */
     bool m_stateS2 = false;
 
-//===================================== SNAKE PROPERTIES! =============================================
+    //===================================== SNAKE PROPERTIES! =============================================
 
     /**
      * @brief The current colour of the snake, as represented as a SNAKE_COLOUR enum
@@ -98,6 +116,10 @@ private:
      */
     vector<cv::Point_<int>> m_snakeSegments;
 
+    /**
+     * @brief Location of the apple on the grid
+     * 
+     */
     cv::Point_<int> m_appleLocation;
 
     /**
@@ -113,7 +135,17 @@ private:
      */
     float m_stepSize = SNAKE_CANVAS_DIVISOR;
 
-//============================================= FLAGS! =============================================
+    int m_lastStepSize = SNAKE_CANVAS_DIVISOR;
+
+    /**
+     * @brief The current score recorded by the game
+     * 
+     */
+    int m_snakeScore = 0;
+
+    //============================================= FLAGS! =============================================
+
+    
     /**
      * @brief Flag for ending the program.
      * Program is ended by run() if this is true
@@ -136,20 +168,60 @@ private:
      */
     bool m_flagAddToSnake = false;
 
+    /**
+     * @brief Flag that determines whether or not the game has reached an game over condition
+     * 
+     */
     bool m_flagGameOver = false;
 
+    /**
+     * @brief Flag that determines whether or not an apple already exists on the game field
+     * 
+     */
     bool m_flagApple = false;
 
-    
-//============================================= TIMING! =============================================
+    /**
+     * @brief Flag that determines whether or not the colour should be updated
+     * 
+     */
+    bool m_flagUpdateColour = true;
 
+    //============================================= TIMING! =============================================
+    
+    /**
+     * @brief The time at the last draw() call
+     * 
+     */
     chrono::system_clock::time_point m_lastDraw;
+
+    /**
+     * @brief The time at the current draw() call
+     * 
+     */
     chrono::system_clock::time_point m_drawStartTime;
+
+    /**
+     * @brief The time that draw will wait until to fix the frame rate
+     * 
+     */
     chrono::system_clock::time_point m_drawSleepUntil;
 
+    /**
+     * @brief The time until the next apple (if one hasn't already been generated)
+     * 
+     */
     chrono::system_clock::time_point m_nextApple;
 
+    /**
+     * @brief The current measured frame rate
+     * 
+     */
     float m_fpsRate = 30;
+
+    /**
+     * @brief The amount of ms each update() cycle is supposed to take
+     * 
+     */
     float m_updatePeriod = 100;
     
     /**
@@ -171,7 +243,9 @@ private:
      */
     void changeLED();
 
-//===================================== SNAKE MANIPULATION! =============================================
+    //===================================== SNAKE MANIPULATION! =============================================
+
+    
     /**
      * @brief Moves the snake based on the implied direction of the joystick
      * 
@@ -203,7 +277,17 @@ private:
      */
     SNAKE_DIRECTION getOpposite(SNAKE_DIRECTION direction);
 
-//============================================= MULTITHREADING! =============================================
+    
+    /**
+     * @brief Extrapolates the snake from one system of coordinates to another
+     * 
+     * @param originalStep Original step size to divide the canvas by
+     * @param newStep New step size to divide the canvas by
+     */
+    void extrapolateSnake(int originalStep, int newStep);
+
+    //============================================= MULTITHREADING! =============================================
+
     /**
      * @brief Mutex preventing update() and draw() from accessing the snake data at the same time
      * Initialized in the constructor.
@@ -211,14 +295,49 @@ private:
      */
     std::mutex * snake_data;
 
+    /**
+     * @brief Multithreading for gpio()
+     * 
+     */
     void run_gpio();
+
+    /**
+     * @brief Multithreading for update()
+     * 
+     */
     void run_update();
 
-//============================================= SUPPORTING FUNCTIONS! =============================================
+    /**
+     * @brief Multithreading for draw()
+     * 
+     */
+    void run_draw();
+
+    //============================================= SUPPORTING FUNCTIONS! =============================================
+
+    /**
+     * @brief Renders the top left window ui using cvui
+     * 
+     */
     void render_ui();
+
+    /**
+     * @brief Updates the colour to be used by the snake and the microcontroller LED
+     * 
+     */
     void update_colour();
 
+    /**
+     * @brief Generates a new apple if there isn't already one on the field
+     * 
+     */
     void createApple();
+
+    /**
+     * @brief Prints a cv::Point to the console in nice format
+     * 
+     */
+    void print_point(cv::Point_<int> point);
 public:
     /**
      * @brief Construct a new CSnakeGame object

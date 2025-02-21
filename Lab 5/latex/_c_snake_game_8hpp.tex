@@ -1,0 +1,262 @@
+\doxysection{CSnake\+Game.\+hpp File Reference}
+\hypertarget{_c_snake_game_8hpp}{}\label{_c_snake_game_8hpp}\index{CSnakeGame.hpp@{CSnakeGame.hpp}}
+{\ttfamily \#include "{}CBase4618.\+hpp"{}}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$conio.\+h$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$thread$>$}\newline
+{\ttfamily \#include $<$mutex$>$}\newline
+{\ttfamily \#include $<$time.\+h$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_c_snake_game}{CSnake\+Game}}
+\begin{DoxyCompactList}\small\item\em An instance of the game Snake, implemented using \doxylink{class_c_base4618}{CBase4618} as the base class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_c_snake_game_8hpp_ac7f2dfddda3d4626aff36fdc4970eb23}{SCL\+\_\+\+SNAKE\+\_\+\+RED}}~cv\+::\+Scalar(0,0,255)
+\begin{DoxyCompactList}\small\item\em The colour red as a cv\+::\+Scalar. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_c_snake_game_8hpp_a1c98d0c0dbdb677d780797b2bfb76841}{SCL\+\_\+\+SNAKE\+\_\+\+GREEN}}~cv\+::\+Scalar(0,255,0)
+\begin{DoxyCompactList}\small\item\em The colour green as a cv\+::\+Scalar. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_c_snake_game_8hpp_ac95df8c30523276f1a10e5d922cf11d2}{SCL\+\_\+\+SNAKE\+\_\+\+BLUE}}~cv\+::\+Scalar(255,0,0)
+\begin{DoxyCompactList}\small\item\em The colour blue as a cv\+::\+Scalar. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_c_snake_game_8hpp_a51f6fea7e2d87b1825f42b90e4aabc45}{BUTTON\+\_\+\+DEBOUNCE\+\_\+\+TIMEOUT}}~25
+\begin{DoxyCompactList}\small\item\em Debounce for the buttons in gpio (in ms) \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_c_snake_game_8hpp_ae73053051efbb45c3a39751f5ce9fb36}{PROJECT\+\_\+\+NAME}}~"{}Lab 5 -\/ Snake V2"{}
+\begin{DoxyCompactList}\small\item\em The program name to show at the top of the window. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_c_snake_game_8hpp_a07a51a0dcead3fd38260ef4a51a7e282}{SNAKE\+\_\+\+CANVAS\+\_\+\+DIVISOR}}~10
+\begin{DoxyCompactList}\small\item\em Default step size at start of game (in pixels) \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_c_snake_game_8hpp_a825f1c9798310c5cc5d2a3c74ae1cb5f}{APPLE\+\_\+\+REGEN\+\_\+\+TIME}}~5
+\begin{DoxyCompactList}\small\item\em Time before a new apple is drawn (in seconds) \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_c_snake_game_8hpp_ad4888a3d37b771ff14151ca8e5d82d37}{LED\+\_\+\+BRIGHTNESS}}~20
+\begin{DoxyCompactList}\small\item\em Analog value to write to each LED (out of 255) \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_c_snake_game_8hpp_a011c7c1a26071e2d252541b32814c95d}{TARGET\+\_\+\+FRAME\+\_\+\+RATE}}~30
+\begin{DoxyCompactList}\small\item\em Target frame rate for draw() (in fps) \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_c_snake_game_8hpp_a6d6e8f7bb07994c9c1970fb45ff0a867}{THREAD\+\_\+\+SLEEP\+\_\+\+OFFSET}}~5
+\begin{DoxyCompactList}\small\item\em Amount to be short by for time so the thread can yield (in ms) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{_c_snake_game_8hpp_a7568ff8846d4a4ee5ad54b0eec1fdbcf}{SNAKE\+\_\+\+COLOUR}} \{ \mbox{\hyperlink{_c_snake_game_8hpp_a7568ff8846d4a4ee5ad54b0eec1fdbcfac0e2b2b54226c21ae949e78f7ba0df16}{SNAKE\+\_\+\+RED}}
+, \mbox{\hyperlink{_c_snake_game_8hpp_a7568ff8846d4a4ee5ad54b0eec1fdbcfad9131f3393a360ac3a9620c9c8d06fd6}{SNAKE\+\_\+\+GREEN}}
+, \mbox{\hyperlink{_c_snake_game_8hpp_a7568ff8846d4a4ee5ad54b0eec1fdbcfab3da2732151b49bf873a20b1563af6ac}{SNAKE\+\_\+\+BLUE}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enum for the colours of the snake. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{_c_snake_game_8hpp_a7e8ef9a84fee28fa2a1dc1f2ec761676}{SNAKE\+\_\+\+DIRECTION}} \{ \newline
+\mbox{\hyperlink{_c_snake_game_8hpp_a7e8ef9a84fee28fa2a1dc1f2ec761676a0f6431a4e2f1c8a8a2ec2827953b795d}{SNAKE\+\_\+\+DIRECTION\+\_\+\+NORTH}}
+, \mbox{\hyperlink{_c_snake_game_8hpp_a7e8ef9a84fee28fa2a1dc1f2ec761676a67c498d5e70e4507114b46555dc01d8d}{SNAKE\+\_\+\+DIRECTION\+\_\+\+EAST}}
+, \mbox{\hyperlink{_c_snake_game_8hpp_a7e8ef9a84fee28fa2a1dc1f2ec761676a9eb87710fba2ba01e28e46bff107e790}{SNAKE\+\_\+\+DIRECTION\+\_\+\+SOUTH}}
+, \mbox{\hyperlink{_c_snake_game_8hpp_a7e8ef9a84fee28fa2a1dc1f2ec761676a06048471444f81fbbdb28b8ebf704431}{SNAKE\+\_\+\+DIRECTION\+\_\+\+WEST}}
+, \newline
+\mbox{\hyperlink{_c_snake_game_8hpp_a7e8ef9a84fee28fa2a1dc1f2ec761676a925359d5702cd0cfdfbabbbfa0ceed39}{SNAKE\+\_\+\+DIRECTION\+\_\+\+STOP}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enum for the possible directions the snake can go. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{_c_snake_game_8hpp_ad3d668e3522370601a61d3651f9e0b9b}{SNAKE\+\_\+\+STATUS}} \{ \mbox{\hyperlink{_c_snake_game_8hpp_ad3d668e3522370601a61d3651f9e0b9ba12d52dfe3af44a71ca0c12b50960a7a4}{SNAKE\+\_\+\+DEAD}}
+, \mbox{\hyperlink{_c_snake_game_8hpp_ad3d668e3522370601a61d3651f9e0b9badb26a30eef1b2025547c30b80d90b927}{SNAKE\+\_\+\+ALIVE}}
+, \mbox{\hyperlink{_c_snake_game_8hpp_ad3d668e3522370601a61d3651f9e0b9ba43ae36b81e48b41961db3a197bcfb29e}{SNAKE\+\_\+\+APPLE}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enum for the current status of a snake update. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Rafael Banalan A01367816 4S (\href{mailto:abanalan@my.bcit.ca}{\texttt{ abanalan@my.\+bcit.\+ca}}) 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2025-\/02-\/14
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2025 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{_c_snake_game_8hpp_a825f1c9798310c5cc5d2a3c74ae1cb5f}\index{CSnakeGame.hpp@{CSnakeGame.hpp}!APPLE\_REGEN\_TIME@{APPLE\_REGEN\_TIME}}
+\index{APPLE\_REGEN\_TIME@{APPLE\_REGEN\_TIME}!CSnakeGame.hpp@{CSnakeGame.hpp}}
+\doxysubsubsection{\texorpdfstring{APPLE\_REGEN\_TIME}{APPLE\_REGEN\_TIME}}
+{\footnotesize\ttfamily \label{_c_snake_game_8hpp_a825f1c9798310c5cc5d2a3c74ae1cb5f} 
+\#define APPLE\+\_\+\+REGEN\+\_\+\+TIME~5}
+
+
+
+Time before a new apple is drawn (in seconds) 
+
+\Hypertarget{_c_snake_game_8hpp_a51f6fea7e2d87b1825f42b90e4aabc45}\index{CSnakeGame.hpp@{CSnakeGame.hpp}!BUTTON\_DEBOUNCE\_TIMEOUT@{BUTTON\_DEBOUNCE\_TIMEOUT}}
+\index{BUTTON\_DEBOUNCE\_TIMEOUT@{BUTTON\_DEBOUNCE\_TIMEOUT}!CSnakeGame.hpp@{CSnakeGame.hpp}}
+\doxysubsubsection{\texorpdfstring{BUTTON\_DEBOUNCE\_TIMEOUT}{BUTTON\_DEBOUNCE\_TIMEOUT}}
+{\footnotesize\ttfamily \label{_c_snake_game_8hpp_a51f6fea7e2d87b1825f42b90e4aabc45} 
+\#define BUTTON\+\_\+\+DEBOUNCE\+\_\+\+TIMEOUT~25}
+
+
+
+Debounce for the buttons in gpio (in ms) 
+
+\Hypertarget{_c_snake_game_8hpp_ad4888a3d37b771ff14151ca8e5d82d37}\index{CSnakeGame.hpp@{CSnakeGame.hpp}!LED\_BRIGHTNESS@{LED\_BRIGHTNESS}}
+\index{LED\_BRIGHTNESS@{LED\_BRIGHTNESS}!CSnakeGame.hpp@{CSnakeGame.hpp}}
+\doxysubsubsection{\texorpdfstring{LED\_BRIGHTNESS}{LED\_BRIGHTNESS}}
+{\footnotesize\ttfamily \label{_c_snake_game_8hpp_ad4888a3d37b771ff14151ca8e5d82d37} 
+\#define LED\+\_\+\+BRIGHTNESS~20}
+
+
+
+Analog value to write to each LED (out of 255) 
+
+\Hypertarget{_c_snake_game_8hpp_ae73053051efbb45c3a39751f5ce9fb36}\index{CSnakeGame.hpp@{CSnakeGame.hpp}!PROJECT\_NAME@{PROJECT\_NAME}}
+\index{PROJECT\_NAME@{PROJECT\_NAME}!CSnakeGame.hpp@{CSnakeGame.hpp}}
+\doxysubsubsection{\texorpdfstring{PROJECT\_NAME}{PROJECT\_NAME}}
+{\footnotesize\ttfamily \label{_c_snake_game_8hpp_ae73053051efbb45c3a39751f5ce9fb36} 
+\#define PROJECT\+\_\+\+NAME~"{}Lab 5 -\/ Snake V2"{}}
+
+
+
+The program name to show at the top of the window. 
+
+\Hypertarget{_c_snake_game_8hpp_ac95df8c30523276f1a10e5d922cf11d2}\index{CSnakeGame.hpp@{CSnakeGame.hpp}!SCL\_SNAKE\_BLUE@{SCL\_SNAKE\_BLUE}}
+\index{SCL\_SNAKE\_BLUE@{SCL\_SNAKE\_BLUE}!CSnakeGame.hpp@{CSnakeGame.hpp}}
+\doxysubsubsection{\texorpdfstring{SCL\_SNAKE\_BLUE}{SCL\_SNAKE\_BLUE}}
+{\footnotesize\ttfamily \label{_c_snake_game_8hpp_ac95df8c30523276f1a10e5d922cf11d2} 
+\#define SCL\+\_\+\+SNAKE\+\_\+\+BLUE~cv\+::\+Scalar(255,0,0)}
+
+
+
+The colour blue as a cv\+::\+Scalar. 
+
+\Hypertarget{_c_snake_game_8hpp_a1c98d0c0dbdb677d780797b2bfb76841}\index{CSnakeGame.hpp@{CSnakeGame.hpp}!SCL\_SNAKE\_GREEN@{SCL\_SNAKE\_GREEN}}
+\index{SCL\_SNAKE\_GREEN@{SCL\_SNAKE\_GREEN}!CSnakeGame.hpp@{CSnakeGame.hpp}}
+\doxysubsubsection{\texorpdfstring{SCL\_SNAKE\_GREEN}{SCL\_SNAKE\_GREEN}}
+{\footnotesize\ttfamily \label{_c_snake_game_8hpp_a1c98d0c0dbdb677d780797b2bfb76841} 
+\#define SCL\+\_\+\+SNAKE\+\_\+\+GREEN~cv\+::\+Scalar(0,255,0)}
+
+
+
+The colour green as a cv\+::\+Scalar. 
+
+\Hypertarget{_c_snake_game_8hpp_ac7f2dfddda3d4626aff36fdc4970eb23}\index{CSnakeGame.hpp@{CSnakeGame.hpp}!SCL\_SNAKE\_RED@{SCL\_SNAKE\_RED}}
+\index{SCL\_SNAKE\_RED@{SCL\_SNAKE\_RED}!CSnakeGame.hpp@{CSnakeGame.hpp}}
+\doxysubsubsection{\texorpdfstring{SCL\_SNAKE\_RED}{SCL\_SNAKE\_RED}}
+{\footnotesize\ttfamily \label{_c_snake_game_8hpp_ac7f2dfddda3d4626aff36fdc4970eb23} 
+\#define SCL\+\_\+\+SNAKE\+\_\+\+RED~cv\+::\+Scalar(0,0,255)}
+
+
+
+The colour red as a cv\+::\+Scalar. 
+
+\Hypertarget{_c_snake_game_8hpp_a07a51a0dcead3fd38260ef4a51a7e282}\index{CSnakeGame.hpp@{CSnakeGame.hpp}!SNAKE\_CANVAS\_DIVISOR@{SNAKE\_CANVAS\_DIVISOR}}
+\index{SNAKE\_CANVAS\_DIVISOR@{SNAKE\_CANVAS\_DIVISOR}!CSnakeGame.hpp@{CSnakeGame.hpp}}
+\doxysubsubsection{\texorpdfstring{SNAKE\_CANVAS\_DIVISOR}{SNAKE\_CANVAS\_DIVISOR}}
+{\footnotesize\ttfamily \label{_c_snake_game_8hpp_a07a51a0dcead3fd38260ef4a51a7e282} 
+\#define SNAKE\+\_\+\+CANVAS\+\_\+\+DIVISOR~10}
+
+
+
+Default step size at start of game (in pixels) 
+
+\Hypertarget{_c_snake_game_8hpp_a011c7c1a26071e2d252541b32814c95d}\index{CSnakeGame.hpp@{CSnakeGame.hpp}!TARGET\_FRAME\_RATE@{TARGET\_FRAME\_RATE}}
+\index{TARGET\_FRAME\_RATE@{TARGET\_FRAME\_RATE}!CSnakeGame.hpp@{CSnakeGame.hpp}}
+\doxysubsubsection{\texorpdfstring{TARGET\_FRAME\_RATE}{TARGET\_FRAME\_RATE}}
+{\footnotesize\ttfamily \label{_c_snake_game_8hpp_a011c7c1a26071e2d252541b32814c95d} 
+\#define TARGET\+\_\+\+FRAME\+\_\+\+RATE~30}
+
+
+
+Target frame rate for draw() (in fps) 
+
+\Hypertarget{_c_snake_game_8hpp_a6d6e8f7bb07994c9c1970fb45ff0a867}\index{CSnakeGame.hpp@{CSnakeGame.hpp}!THREAD\_SLEEP\_OFFSET@{THREAD\_SLEEP\_OFFSET}}
+\index{THREAD\_SLEEP\_OFFSET@{THREAD\_SLEEP\_OFFSET}!CSnakeGame.hpp@{CSnakeGame.hpp}}
+\doxysubsubsection{\texorpdfstring{THREAD\_SLEEP\_OFFSET}{THREAD\_SLEEP\_OFFSET}}
+{\footnotesize\ttfamily \label{_c_snake_game_8hpp_a6d6e8f7bb07994c9c1970fb45ff0a867} 
+\#define THREAD\+\_\+\+SLEEP\+\_\+\+OFFSET~5}
+
+
+
+Amount to be short by for time so the thread can yield (in ms) 
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{_c_snake_game_8hpp_a7568ff8846d4a4ee5ad54b0eec1fdbcf}\index{CSnakeGame.hpp@{CSnakeGame.hpp}!SNAKE\_COLOUR@{SNAKE\_COLOUR}}
+\index{SNAKE\_COLOUR@{SNAKE\_COLOUR}!CSnakeGame.hpp@{CSnakeGame.hpp}}
+\doxysubsubsection{\texorpdfstring{SNAKE\_COLOUR}{SNAKE\_COLOUR}}
+{\footnotesize\ttfamily \label{_c_snake_game_8hpp_a7568ff8846d4a4ee5ad54b0eec1fdbcf} 
+enum \mbox{\hyperlink{_c_snake_game_8hpp_a7568ff8846d4a4ee5ad54b0eec1fdbcf}{SNAKE\+\_\+\+COLOUR}}}
+
+
+
+Enum for the colours of the snake. 
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SNAKE\_RED@{SNAKE\_RED}!CSnakeGame.hpp@{CSnakeGame.hpp}}\index{CSnakeGame.hpp@{CSnakeGame.hpp}!SNAKE\_RED@{SNAKE\_RED}}}\Hypertarget{_c_snake_game_8hpp_a7568ff8846d4a4ee5ad54b0eec1fdbcfac0e2b2b54226c21ae949e78f7ba0df16}\label{_c_snake_game_8hpp_a7568ff8846d4a4ee5ad54b0eec1fdbcfac0e2b2b54226c21ae949e78f7ba0df16} 
+SNAKE\+\_\+\+RED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SNAKE\_GREEN@{SNAKE\_GREEN}!CSnakeGame.hpp@{CSnakeGame.hpp}}\index{CSnakeGame.hpp@{CSnakeGame.hpp}!SNAKE\_GREEN@{SNAKE\_GREEN}}}\Hypertarget{_c_snake_game_8hpp_a7568ff8846d4a4ee5ad54b0eec1fdbcfad9131f3393a360ac3a9620c9c8d06fd6}\label{_c_snake_game_8hpp_a7568ff8846d4a4ee5ad54b0eec1fdbcfad9131f3393a360ac3a9620c9c8d06fd6} 
+SNAKE\+\_\+\+GREEN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SNAKE\_BLUE@{SNAKE\_BLUE}!CSnakeGame.hpp@{CSnakeGame.hpp}}\index{CSnakeGame.hpp@{CSnakeGame.hpp}!SNAKE\_BLUE@{SNAKE\_BLUE}}}\Hypertarget{_c_snake_game_8hpp_a7568ff8846d4a4ee5ad54b0eec1fdbcfab3da2732151b49bf873a20b1563af6ac}\label{_c_snake_game_8hpp_a7568ff8846d4a4ee5ad54b0eec1fdbcfab3da2732151b49bf873a20b1563af6ac} 
+SNAKE\+\_\+\+BLUE&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{_c_snake_game_8hpp_a7e8ef9a84fee28fa2a1dc1f2ec761676}\index{CSnakeGame.hpp@{CSnakeGame.hpp}!SNAKE\_DIRECTION@{SNAKE\_DIRECTION}}
+\index{SNAKE\_DIRECTION@{SNAKE\_DIRECTION}!CSnakeGame.hpp@{CSnakeGame.hpp}}
+\doxysubsubsection{\texorpdfstring{SNAKE\_DIRECTION}{SNAKE\_DIRECTION}}
+{\footnotesize\ttfamily \label{_c_snake_game_8hpp_a7e8ef9a84fee28fa2a1dc1f2ec761676} 
+enum \mbox{\hyperlink{_c_snake_game_8hpp_a7e8ef9a84fee28fa2a1dc1f2ec761676}{SNAKE\+\_\+\+DIRECTION}}}
+
+
+
+Enum for the possible directions the snake can go. 
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SNAKE\_DIRECTION\_NORTH@{SNAKE\_DIRECTION\_NORTH}!CSnakeGame.hpp@{CSnakeGame.hpp}}\index{CSnakeGame.hpp@{CSnakeGame.hpp}!SNAKE\_DIRECTION\_NORTH@{SNAKE\_DIRECTION\_NORTH}}}\Hypertarget{_c_snake_game_8hpp_a7e8ef9a84fee28fa2a1dc1f2ec761676a0f6431a4e2f1c8a8a2ec2827953b795d}\label{_c_snake_game_8hpp_a7e8ef9a84fee28fa2a1dc1f2ec761676a0f6431a4e2f1c8a8a2ec2827953b795d} 
+SNAKE\+\_\+\+DIRECTION\+\_\+\+NORTH&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SNAKE\_DIRECTION\_EAST@{SNAKE\_DIRECTION\_EAST}!CSnakeGame.hpp@{CSnakeGame.hpp}}\index{CSnakeGame.hpp@{CSnakeGame.hpp}!SNAKE\_DIRECTION\_EAST@{SNAKE\_DIRECTION\_EAST}}}\Hypertarget{_c_snake_game_8hpp_a7e8ef9a84fee28fa2a1dc1f2ec761676a67c498d5e70e4507114b46555dc01d8d}\label{_c_snake_game_8hpp_a7e8ef9a84fee28fa2a1dc1f2ec761676a67c498d5e70e4507114b46555dc01d8d} 
+SNAKE\+\_\+\+DIRECTION\+\_\+\+EAST&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SNAKE\_DIRECTION\_SOUTH@{SNAKE\_DIRECTION\_SOUTH}!CSnakeGame.hpp@{CSnakeGame.hpp}}\index{CSnakeGame.hpp@{CSnakeGame.hpp}!SNAKE\_DIRECTION\_SOUTH@{SNAKE\_DIRECTION\_SOUTH}}}\Hypertarget{_c_snake_game_8hpp_a7e8ef9a84fee28fa2a1dc1f2ec761676a9eb87710fba2ba01e28e46bff107e790}\label{_c_snake_game_8hpp_a7e8ef9a84fee28fa2a1dc1f2ec761676a9eb87710fba2ba01e28e46bff107e790} 
+SNAKE\+\_\+\+DIRECTION\+\_\+\+SOUTH&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SNAKE\_DIRECTION\_WEST@{SNAKE\_DIRECTION\_WEST}!CSnakeGame.hpp@{CSnakeGame.hpp}}\index{CSnakeGame.hpp@{CSnakeGame.hpp}!SNAKE\_DIRECTION\_WEST@{SNAKE\_DIRECTION\_WEST}}}\Hypertarget{_c_snake_game_8hpp_a7e8ef9a84fee28fa2a1dc1f2ec761676a06048471444f81fbbdb28b8ebf704431}\label{_c_snake_game_8hpp_a7e8ef9a84fee28fa2a1dc1f2ec761676a06048471444f81fbbdb28b8ebf704431} 
+SNAKE\+\_\+\+DIRECTION\+\_\+\+WEST&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SNAKE\_DIRECTION\_STOP@{SNAKE\_DIRECTION\_STOP}!CSnakeGame.hpp@{CSnakeGame.hpp}}\index{CSnakeGame.hpp@{CSnakeGame.hpp}!SNAKE\_DIRECTION\_STOP@{SNAKE\_DIRECTION\_STOP}}}\Hypertarget{_c_snake_game_8hpp_a7e8ef9a84fee28fa2a1dc1f2ec761676a925359d5702cd0cfdfbabbbfa0ceed39}\label{_c_snake_game_8hpp_a7e8ef9a84fee28fa2a1dc1f2ec761676a925359d5702cd0cfdfbabbbfa0ceed39} 
+SNAKE\+\_\+\+DIRECTION\+\_\+\+STOP&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{_c_snake_game_8hpp_ad3d668e3522370601a61d3651f9e0b9b}\index{CSnakeGame.hpp@{CSnakeGame.hpp}!SNAKE\_STATUS@{SNAKE\_STATUS}}
+\index{SNAKE\_STATUS@{SNAKE\_STATUS}!CSnakeGame.hpp@{CSnakeGame.hpp}}
+\doxysubsubsection{\texorpdfstring{SNAKE\_STATUS}{SNAKE\_STATUS}}
+{\footnotesize\ttfamily \label{_c_snake_game_8hpp_ad3d668e3522370601a61d3651f9e0b9b} 
+enum \mbox{\hyperlink{_c_snake_game_8hpp_ad3d668e3522370601a61d3651f9e0b9b}{SNAKE\+\_\+\+STATUS}}}
+
+
+
+Enum for the current status of a snake update. 
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SNAKE\_DEAD@{SNAKE\_DEAD}!CSnakeGame.hpp@{CSnakeGame.hpp}}\index{CSnakeGame.hpp@{CSnakeGame.hpp}!SNAKE\_DEAD@{SNAKE\_DEAD}}}\Hypertarget{_c_snake_game_8hpp_ad3d668e3522370601a61d3651f9e0b9ba12d52dfe3af44a71ca0c12b50960a7a4}\label{_c_snake_game_8hpp_ad3d668e3522370601a61d3651f9e0b9ba12d52dfe3af44a71ca0c12b50960a7a4} 
+SNAKE\+\_\+\+DEAD&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SNAKE\_ALIVE@{SNAKE\_ALIVE}!CSnakeGame.hpp@{CSnakeGame.hpp}}\index{CSnakeGame.hpp@{CSnakeGame.hpp}!SNAKE\_ALIVE@{SNAKE\_ALIVE}}}\Hypertarget{_c_snake_game_8hpp_ad3d668e3522370601a61d3651f9e0b9badb26a30eef1b2025547c30b80d90b927}\label{_c_snake_game_8hpp_ad3d668e3522370601a61d3651f9e0b9badb26a30eef1b2025547c30b80d90b927} 
+SNAKE\+\_\+\+ALIVE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SNAKE\_APPLE@{SNAKE\_APPLE}!CSnakeGame.hpp@{CSnakeGame.hpp}}\index{CSnakeGame.hpp@{CSnakeGame.hpp}!SNAKE\_APPLE@{SNAKE\_APPLE}}}\Hypertarget{_c_snake_game_8hpp_ad3d668e3522370601a61d3651f9e0b9ba43ae36b81e48b41961db3a197bcfb29e}\label{_c_snake_game_8hpp_ad3d668e3522370601a61d3651f9e0b9ba43ae36b81e48b41961db3a197bcfb29e} 
+SNAKE\+\_\+\+APPLE&\\
+\hline
+
+\end{DoxyEnumFields}

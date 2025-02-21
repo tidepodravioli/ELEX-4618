@@ -1,0 +1,10 @@
+^C:\USERS\ALECB\REPO\OOP\LAB 6\BUILD\CMAKEFILES\E78C036D1ED8FE7B1BE7BE78C4B92F02\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/alecb/repo/OOP/Lab 6" "-BC:/Users/alecb/repo/OOP/Lab 6/build" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "C:/Users/alecb/repo/OOP/Lab 6/build/Lab6.sln"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

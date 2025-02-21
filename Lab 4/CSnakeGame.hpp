@@ -1,3 +1,13 @@
+/**
+ * @file CSnakeGame.hpp
+ * @author Rafael Banalan  A01367816 4S (abanalan@my.bcit.ca)
+ * @brief Represents an instance of the Lab 4 CSnakeGame
+ * @version 0.1
+ * @date 2025-02-14
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
 #pragma once
 
 #define SCL_SNAKE_RED cv::Scalar(0,0,255) ///< The colour red as a cv::Scalar
@@ -10,11 +20,11 @@
 #include <sstream>
 #include <vector>
 
-#define BUTTON_DEBOUNCE_TIMEOUT 50
+#define BUTTON_DEBOUNCE_TIMEOUT 50 ///< Button debounce timeout (overrides CControl.h)
 
-#define PROJECT_NAME "Lab 4 - Snake V1"
+#define PROJECT_NAME "Lab 4 - Snake V1" ///< Program title/heading
 
-#define SNAKE_CANVAS_DIVISOR 10
+#define SNAKE_CANVAS_DIVISOR 10 ///< Default step size of snake (in pixels)
 
 #define LED_BRIGHTNESS 20 ///< Analog value to write to each LED (out of 255)
 

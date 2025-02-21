@@ -127,21 +127,25 @@ Inheritance diagram for CBase4618:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a8d55ae2f3ce30021775565dc895b8b12" id="r_a8d55ae2f3ce30021775565dc895b8b12"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8d55ae2f3ce30021775565dc895b8b12">gpio</a> ()=0</td></tr>
+<tr class="memdesc:a8d55ae2f3ce30021775565dc895b8b12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates GPIO specific fields in this class.  <br /></td></tr>
 <tr class="separator:a8d55ae2f3ce30021775565dc895b8b12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e2f3c16eb99b5bfdd5d5254aee39ee6" id="r_a1e2f3c16eb99b5bfdd5d5254aee39ee6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e2f3c16eb99b5bfdd5d5254aee39ee6">update</a> ()=0</td></tr>
+<tr class="memdesc:a1e2f3c16eb99b5bfdd5d5254aee39ee6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the snake body before it is drawn.  <br /></td></tr>
 <tr class="separator:a1e2f3c16eb99b5bfdd5d5254aee39ee6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0987bf28e9beed4753d3628fcddc3315" id="r_a0987bf28e9beed4753d3628fcddc3315"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0987bf28e9beed4753d3628fcddc3315">draw</a> ()=0</td></tr>
+<tr class="memdesc:a0987bf28e9beed4753d3628fcddc3315"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draws the generated image on the screen using OpenCV.  <br /></td></tr>
 <tr class="separator:a0987bf28e9beed4753d3628fcddc3315"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a988cdbb83863a0f3f48fed28677bfa40" id="r_a988cdbb83863a0f3f48fed28677bfa40"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a988cdbb83863a0f3f48fed28677bfa40">run</a> ()=0</td></tr>
+<tr class="memdesc:a988cdbb83863a0f3f48fed28677bfa40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loops between gpio, update, and draw. Ends program if q is pressed.  <br /></td></tr>
 <tr class="separator:a988cdbb83863a0f3f48fed28677bfa40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:adc0ba98fd1854b260c83a7945c79c61f" id="r_adc0ba98fd1854b260c83a7945c79c61f"><td class="memItemLeft" align="right" valign="top"><a id="adc0ba98fd1854b260c83a7945c79c61f" name="adc0ba98fd1854b260c83a7945c79c61f"></a>
-CControl&#160;</td><td class="memItemRight" valign="bottom"><b>m_port</b></td></tr>
+<tr class="memitem:adc0ba98fd1854b260c83a7945c79c61f" id="r_adc0ba98fd1854b260c83a7945c79c61f"><td class="memItemLeft" align="right" valign="top">CControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adc0ba98fd1854b260c83a7945c79c61f">m_port</a></td></tr>
+<tr class="memdesc:adc0ba98fd1854b260c83a7945c79c61f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles the serial communication between the game and the microcontroller.  <br /></td></tr>
 <tr class="separator:adc0ba98fd1854b260c83a7945c79c61f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b18cd5ef5f103ca98f311e743741780" id="r_a7b18cd5ef5f103ca98f311e743741780"><td class="memItemLeft" align="right" valign="top"><a id="a7b18cd5ef5f103ca98f311e743741780" name="a7b18cd5ef5f103ca98f311e743741780"></a>
-cv::Mat&#160;</td><td class="memItemRight" valign="bottom"><b>m_canvas</b></td></tr>
+<tr class="memitem:a7b18cd5ef5f103ca98f311e743741780" id="r_a7b18cd5ef5f103ca98f311e743741780"><td class="memItemLeft" align="right" valign="top">cv::Mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7b18cd5ef5f103ca98f311e743741780">m_canvas</a></td></tr>
+<tr class="memdesc:a7b18cd5ef5f103ca98f311e743741780"><td class="mdescLeft">&#160;</td><td class="mdescRight">Canvas representing the current frame to be displayed on screen by OpenCV.  <br /></td></tr>
 <tr class="separator:a7b18cd5ef5f103ca98f311e743741780"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -170,6 +174,8 @@ cv::Mat&#160;</td><td class="memItemRight" valign="bottom"><b>m_canvas</b></td><
 </table>
 </div><div class="memdoc">
 
+<p>Draws the generated image on the screen using OpenCV. </p>
+
 <p>Implemented in <a class="el" href="class_c_snake_game.html#a698c033f63c64fa684b9a70b22b1b607">CSnakeGame</a>.</p>
 
 </div>
@@ -196,6 +202,8 @@ cv::Mat&#160;</td><td class="memItemRight" valign="bottom"><b>m_canvas</b></td><
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Updates GPIO specific fields in this class. </p>
 
 <p>Implemented in <a class="el" href="class_c_snake_game.html#a81e5ef979dd35a6cfdc62461c1959f6b">CSnakeGame</a>.</p>
 
@@ -224,6 +232,8 @@ cv::Mat&#160;</td><td class="memItemRight" valign="bottom"><b>m_canvas</b></td><
 </table>
 </div><div class="memdoc">
 
+<p>Loops between gpio, update, and draw. Ends program if q is pressed. </p>
+
 <p>Implemented in <a class="el" href="class_c_snake_game.html#aed6ffa91d5668b39b3a4f4f45dbb43a0">CSnakeGame</a>.</p>
 
 </div>
@@ -251,7 +261,58 @@ cv::Mat&#160;</td><td class="memItemRight" valign="bottom"><b>m_canvas</b></td><
 </table>
 </div><div class="memdoc">
 
+<p>Updates the snake body before it is drawn. </p>
+
 <p>Implemented in <a class="el" href="class_c_snake_game.html#a34614fecfbf367f6bf62db84e3d20b4a">CSnakeGame</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a7b18cd5ef5f103ca98f311e743741780" name="a7b18cd5ef5f103ca98f311e743741780"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b18cd5ef5f103ca98f311e743741780">&#9670;&#160;</a></span>m_canvas</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">cv::Mat CBase4618::m_canvas</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Canvas representing the current frame to be displayed on screen by OpenCV. </p>
+
+</div>
+</div>
+<a id="adc0ba98fd1854b260c83a7945c79c61f" name="adc0ba98fd1854b260c83a7945c79c61f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc0ba98fd1854b260c83a7945c79c61f">&#9670;&#160;</a></span>m_port</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CControl CBase4618::m_port</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Handles the serial communication between the game and the microcontroller. </p>
 
 </div>
 </div>

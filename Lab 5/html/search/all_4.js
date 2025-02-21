@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['update_0',['update',['../class_c_snake_game.html#a34614fecfbf367f6bf62db84e3d20b4a',1,'CSnakeGame']]]
+  ['extrapolatesnake_0',['extrapolateSnake',['../class_c_snake_game.html#aaa3a9e3809281934e2a1b309c8d18ade',1,'CSnakeGame']]]
 ];

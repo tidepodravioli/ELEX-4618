@@ -1,0 +1,3 @@
+C:/Users/alecb/repo/OOP/JOYSTICK TEST/build/CMakeFiles/joysticktest.dir
+C:/Users/alecb/repo/OOP/JOYSTICK TEST/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/alecb/repo/OOP/JOYSTICK TEST/build/CMakeFiles/ZERO_CHECK.dir
