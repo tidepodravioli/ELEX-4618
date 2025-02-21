@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/alecb/repo/OOP/Lab 5
+# Install script for directory: C:/Users/alecb/repo/ELEX-4618/Lab 5
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,14 +34,14 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("C:/Users/alecb/repo/OOP/Lab 5/build/cvui/cmake_install.cmake")
+  include("C:/Users/alecb/repo/ELEX-4618/Lab 5/build/cvui/cmake_install.cmake")
 
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "C:/Users/alecb/repo/OOP/Lab 5/build/install_local_manifest.txt"
+  file(WRITE "C:/Users/alecb/repo/ELEX-4618/Lab 5/build/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()
 if(CMAKE_INSTALL_COMPONENT)
@@ -57,6 +57,6 @@ else()
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "C:/Users/alecb/repo/OOP/Lab 5/build/${CMAKE_INSTALL_MANIFEST}"
+  file(WRITE "C:/Users/alecb/repo/ELEX-4618/Lab 5/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

@@ -1,0 +1,89 @@
+\doxysection{CControl.\+h}
+\hypertarget{_c_control_8h_source}{}\label{_c_control_8h_source}\index{C:/Users/alecb/repo/ELEX-\/4618/Common/CControl.h@{C:/Users/alecb/repo/ELEX-\/4618/Common/CControl.h}}
+\mbox{\hyperlink{_c_control_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}Serial.h"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_c_joystick_position_8hpp}{CJoystickPosition.hpp}}"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <iomanip>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ <chrono>}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <thread>}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ CHAR\_ARRAY\_MAX\_SIZE\ 32\ }}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#define\ SERIAL\_PORT\_DELAY\ 5\ }}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#define\ SERIAL\_PORT\_TIMEOUT\ 2000\ }}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ SERIAL\_PORT\_CHECK\_TO\_MAX\ 15\ }}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#ifndef\ BUTTON\_DEBOUNCE\_TIMEOUT}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#define\ BUTTON\_DEBOUNCE\_TIMEOUT\ 50\ }}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#define\ BUTTON\_NUM\_OF\_CHANNELS\ 2\ }}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#define\ COM\_GET\_CHAR\ "{}G"{}\ }}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#define\ COM\_SET\_CHAR\ "{}S"{}}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#define\ COM\_ACK\_CHAR\ "{}A"{}}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#define\ CHAR\_LINE\_FEED\ '\(\backslash\)n'\ }}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#define\ CHAR\_SPACE\ '\ '\ }}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#define\ BLANK\_STRING\ "{}"{}\ }}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#define\ COM\_CHECK\_ALIVE\ "{}G\ -\/1\ 0"{}\ }}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#define\ COM\_ACK\_ALIVE\ "{}A\ -\/1\ 0\ -\/1"{}\ }}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#define\ CH\_SWITCH\_S1\ 0\ }}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#define\ CH\_SWITCH\_S2\ 1\ }}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#define\ CH\_RGBLED\_RED\_PIN\ 2\ }}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#define\ CH\_RGBLED\_GRN\_PIN\ 3\ }}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#define\ CH\_RGBLED\_BLU\_PIN\ 4\ }}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#define\ CH\_JOYSTICK\_X\ 0\ }}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#define\ CH\_JOYSTICK\_Y\ 1\ }}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#define\ SERVO\_PORT0\ 0\ }}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00063\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{_c_control_8h_a13bd38766753a1ef2cf1e3888d15fe0c}{COMMAND\_TYPE}}\ \{COMMAND\_GET,\ COMMAND\_SET,\ COMMAND\_ACK\};}
+\DoxyCodeLine{00068\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{_c_control_8h_aa082c000e4eff6ed512714ea0a33d27b}{DATA\_TYPE}}\ \{TYPE\_DIGITAL,\ TYPE\_ANALOG,\ TYPE\_SERVO\};\ }
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00074\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_c_control_a6498500ff403327b5770a3acebed1d93}{CControl}}\ \{}
+\DoxyCodeLine{00075\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00080\ \ \ \ \ \mbox{\hyperlink{class_serial}{Serial}}\ \mbox{\hyperlink{class_c_control_ad552db79cc108634049b371e8cc25d6c}{m\_com}};}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_flagPortOpen\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00090\ \ \ \ \ vector<string>\ \mbox{\hyperlink{class_c_control_a0fcc047e4d1dbfb298c15d771a6fba01}{delimitString}}(std::string\ input,\ \textcolor{keywordtype}{char}\ delimiter);}
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_c_control_a72fdfa22aac5e4b6474d209b2d693eeb}{commandBuilder}}(\mbox{\hyperlink{_c_control_8h_a13bd38766753a1ef2cf1e3888d15fe0c}{COMMAND\_TYPE}}\ command,\ \mbox{\hyperlink{_c_control_8h_aa082c000e4eff6ed512714ea0a33d27b}{DATA\_TYPE}}\ datatype,\ \textcolor{keywordtype}{int}\ channel,\ \textcolor{keywordtype}{bool}\ addEndl\ =\ \textcolor{keyword}{true},\ \textcolor{keywordtype}{int}\ val\ =\ -\/1);}
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_c_control_a3c0d224b70ddb66b94f0a89e77ccfd08}{readMessage}}(\textcolor{keywordtype}{string}\ \&result);}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00115\ \ \ \ \ std::chrono::time\_point<std::chrono::steady\_clock>\ \mbox{\hyperlink{class_c_control_a1b5f6fb1560d57d18d51848b7ebd0108}{m\_lastDebounceTimes}}[\mbox{\hyperlink{_c_control_8h_a9a651e121f608352f3012f4cc8156e61}{BUTTON\_NUM\_OF\_CHANNELS}}];}
+\DoxyCodeLine{00116\ \ \ \ \ }
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_c_control_a2d86449948b5393ddd9d7f1329dd55b3}{m\_buttonActive}}[\mbox{\hyperlink{_c_control_8h_a9a651e121f608352f3012f4cc8156e61}{BUTTON\_NUM\_OF\_CHANNELS}}];}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00128\ \ \ \ \ \mbox{\hyperlink{class_c_control_a6498500ff403327b5770a3acebed1d93}{CControl}}();}
+\DoxyCodeLine{00133\ \ \ \ \ \mbox{\hyperlink{class_c_control_ab2ae420ef75b010c0c9078e597781105}{\string~CControl}}();}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_control_a3d1384d0e1ee2a4a478a798b46457468}{init\_com}}(\textcolor{keywordtype}{int}\ comport);}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00151\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_c_control_a45ade7cd49031d80d4577530f8fe20b7}{get\_data}}\ (\mbox{\hyperlink{_c_control_8h_aa082c000e4eff6ed512714ea0a33d27b}{DATA\_TYPE}}\ type,\ \textcolor{keywordtype}{int}\ channel,\ \textcolor{keywordtype}{int}\ \&result);}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00162\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_c_control_a68b4a4fbcca703d6683921c19ba82abd}{set\_data}}\ (\mbox{\hyperlink{_c_control_8h_aa082c000e4eff6ed512714ea0a33d27b}{DATA\_TYPE}}\ type,\ \textcolor{keywordtype}{int}\ channel,\ \textcolor{keywordtype}{int}\ val);}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00170\ \ \ \ \ \mbox{\hyperlink{class_c_joystick_position}{CJoystickPosition}}\ \mbox{\hyperlink{class_c_control_a2c1472794b8917b02ed04683ad5b1af7}{get\_analog}}(\textcolor{keywordtype}{bool}\ \&pass);}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00179\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_c_control_aae08c07c6868f592f30b3dba97f1fa34}{get\_button}}(\textcolor{keywordtype}{int}\ channel);}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00187\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_c_control_a00bf1762c5be3965cac2d103d8f76159}{findPort}}();}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_c_control_a20139449f88797c5ff1114783dca74c2}{checkPort}}();}
+\DoxyCodeLine{00196\ \};}
+
+\end{DoxyCode}

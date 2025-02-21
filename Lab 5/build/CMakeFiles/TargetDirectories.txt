@@ -1,4 +1,4 @@
-C:/Users/alecb/repo/OOP/Lab 5/build/CMakeFiles/Lab4.dir
-C:/Users/alecb/repo/OOP/Lab 5/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/alecb/repo/OOP/Lab 5/build/CMakeFiles/ZERO_CHECK.dir
-C:/Users/alecb/repo/OOP/Lab 5/build/cvui/CMakeFiles/ALL_BUILD.dir
+C:/Users/alecb/repo/ELEX-4618/Lab 5/build/CMakeFiles/Lab4.dir
+C:/Users/alecb/repo/ELEX-4618/Lab 5/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/alecb/repo/ELEX-4618/Lab 5/build/CMakeFiles/ZERO_CHECK.dir
+C:/Users/alecb/repo/ELEX-4618/Lab 5/build/cvui/CMakeFiles/ALL_BUILD.dir

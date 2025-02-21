@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.12)
 project(Lab4)
 
 set(OpenCV_STATIC ON)
+set(OpenCV_RUNTIME vc16)
 find_package(OpenCV REQUIRED)
 
 include_directories(${OpenCV_INCLUDE_DIRS} "../Lab 3")

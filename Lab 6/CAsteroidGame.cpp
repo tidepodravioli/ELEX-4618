@@ -9,21 +9,40 @@ CAsteroidGame::CAsteroidGame(Size canvasSize)
     cvui::init(CASTEROIDGAME_PROGRAM_TITLE);
 
     m_ship = new CShip(Point2i(canvasSize.width/2,canvasSize.height/2));
-
-    m_port.init_com(6);
+    m_port.init_com(9);
 }
 
 void CAsteroidGame::gpio()
-{
+{   
+    m_timeLastGPIO = chrono::system_clock::now();
+    if(!m_port.checkPort())
+    {
+        m_flagSerialConnected = false;
+        setupGPIO();
+    }
+    
     bool joystickIOpass = false;
+    int failCount = 0;
     do
     {
+        if(failCount > CASTEROIDGAME_MAX_SERIAL_ERRORS) break;
+
         m_currentPosition = m_port.get_analog(joystickIOpass);
+        if(!joystickIOpass) failCount++;
+        else break;
     } 
-    while (!joystickIOpass);
+    while (true);
     
-    m_S1pressed = m_port.get_button(0);
-    m_S2pressed = m_port.get_button(1);
+    if(!joystickIOpass)
+    {
+        m_flagSerialConnected = false;
+        setupGPIO();
+        return;
+    }
+    else m_flagSerialConnected = true;
+    
+    m_S1pressed = m_port.get_button(CH_SWITCH_S1);
+    m_S2pressed = m_port.get_button(CH_SWITCH_S2);
 }
 
 void CAsteroidGame::thread_gpio()
@@ -34,13 +53,32 @@ void CAsteroidGame::thread_gpio()
     }
 }
 
+void CAsteroidGame::setupGPIO()
+{
+    if(!m_port.checkPort())
+    {
+        cout << "Serial port disconnected... trying again." << endl;
+        do
+        {
+            m_port.findPort();
+        } while(!m_port.checkPort());
+    }
+
+    m_flagSerialConnected = true;
+}
+
 void CAsteroidGame::update()
 {
     // the time the update cycle is supposed to finish at
     auto sleepTil = chrono::system_clock::now() + chrono::milliseconds(10);
     
+    if(chrono::system_clock::now() - m_timeLastGPIO > chrono::seconds(CASTEROIDGAME_SERIAL_TIME_MAX))
+    {
+        m_flagSerialConnected = false;
+    }
     if(m_S2pressed)
     {
+        cout << "EVENT : Reset button pressed." << endl;
         reset();
         m_S2pressed = false;
     }
@@ -51,6 +89,7 @@ void CAsteroidGame::update()
 
         if(m_S1pressed)
         {
+            cout << "EVENT : Fire button pressed." << endl;
             generateMissle();
             m_S1pressed = false;
         }
@@ -61,7 +100,12 @@ void CAsteroidGame::update()
     
         updateMissle();
     
-        if(m_flagGenerateAsteroid) generateAsteroid();
+        if(m_flagGenerateAsteroid)
+        {
+            generateAsteroid();
+            m_timeNextAsteroid = chrono::system_clock::now() + chrono::milliseconds(CASTEROIDGAME_NEXT_ASTEROID);
+
+        }
     
         if(m_asteroids.size() < CASTEROIDGAME_MAX_ASTEROIDS && chrono::system_clock::now() > m_timeNextAsteroid)
         {
@@ -87,7 +131,6 @@ void CAsteroidGame::update()
             if(m_asteroids[asteroid].get_lives() <= 0)
             {
                 m_asteroids.erase(m_asteroids.begin() + asteroid);
-                m_timeNextAsteroid = chrono::system_clock::now() + chrono::seconds(CASTEROIDGAME_NEXT_ASTEROID);
                 asteroid--;
                 continue;
             }
@@ -95,13 +138,13 @@ void CAsteroidGame::update()
             // if the asteroid has hit a wall, make it bounce
             if(m_asteroids[asteroid].collide_wall(m_canvasSize))
             {
-                m_asteroids[asteroid].bounce();
+                m_asteroids[asteroid].bounce(m_canvasSize);
             }
     
             // if the ship has collided with the asteroid, call both of their hit functions
             if(m_ship->collide(m_asteroids[asteroid]))
             {
-                m_ship->hit();
+                if(m_flagSerialConnected) m_ship->hit();
                 m_asteroids[asteroid].hit();
             }
         }
@@ -181,6 +224,7 @@ void CAsteroidGame::updateShipAccel()
 
     // update the ships location
     m_ship->move(m_canvasSize);
+    //cout << m_currentPosition.getX() << ", " << m_currentPosition.getY() << endl;
 }
 
 void CAsteroidGame::drawUI()
@@ -203,12 +247,20 @@ void CAsteroidGame::drawUI()
     cvui::text(asteroidCount.str());
     cvui::endRow();
 
+    cvui::beginRow(m_canvas, 10, 40);
+    stringstream scoreCount;
+    scoreCount << "Score : " << m_playerScore;
+    cvui::text(scoreCount.str());
+    cvui::endRow();
+
     if(m_flagGameOver)
     {
-        const int centerX = m_canvasSize.width / 2;
-        const int centerY = m_canvasSize.height / 2;
-
-        cvui::text(m_canvas, centerX, centerY, "GAME OVER", 0.5);
+        drawCenteredText(m_canvas, "GAME OVER");
+    }
+    
+    if(!m_flagSerialConnected)
+    {
+        drawCenteredText(m_canvas, "SERIAL DISCONNECTED");
     }
 }
 
@@ -240,4 +292,18 @@ void CAsteroidGame::generateAsteroid()
     m_asteroids.push_back(asteroid);
     m_flagGenerateAsteroid = false;
     m_timeNextAsteroid = chrono::system_clock::now() + chrono::seconds(CASTEROIDGAME_NEXT_ASTEROID);
+}
+
+// chatgpt generated code
+void CAsteroidGame::drawCenteredText(cv::Mat &img, const std::string &text, int fontFace,
+    double fontScale, cv::Scalar color, int thickness) {
+    int baseline = 0;
+    cv::Size textSize = cv::getTextSize(text, fontFace, fontScale, thickness, &baseline);
+    baseline += thickness;
+
+    // Calculate the position to center the text
+    cv::Point textOrg((img.cols - textSize.width) / 2, (img.rows + textSize.height) / 2);
+
+    // Draw the text
+    cv::putText(img, text, textOrg, fontFace, fontScale, color, thickness, cv::LINE_AA);
 }

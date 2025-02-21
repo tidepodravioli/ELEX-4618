@@ -2,9 +2,8 @@
 
 using namespace std;
 
-CControl::CControl(bool autoConnect)
+CControl::CControl()
 {
-  m_autoConnect = autoConnect;
   auto time_now = std::chrono::steady_clock::now();
   for(int button = 0; button < BUTTON_NUM_OF_CHANNELS; button++)
   {
@@ -19,17 +18,25 @@ CControl::~CControl()
 
 void CControl::init_com(int comport)
 {
-    stringstream portName;
-    portName << "COM" << comport;
-    
-    cout << "Opening " << portName.str() << endl;
+  stringstream portName;
+  portName << "COM" << comport;
+  
+  cout << "Opening " << portName.str() << endl;
+  
+  m_com.~Serial();
+  m_com = Serial();
+  m_com.open(portName.str());
 
-    m_com.~Serial();
-    m_com = Serial();
-    m_com.open(portName.str());
-
-    if(m_com.is_open()) cout << "Port is open." << endl;
-    else cout << "Port is closed." << endl;
+  if(m_com.is_open())
+  {
+    m_flagPortOpen = true;
+    cout << "Port is open." << endl;
+  }
+  else
+  {
+    m_flagPortOpen = false;
+    cout << "Port is closed." << endl;
+  } 
 }
 
 bool CControl::get_data (DATA_TYPE type, int channel, int &result)
@@ -149,48 +156,62 @@ string CControl::commandBuilder(COMMAND_TYPE command, DATA_TYPE datatype, int ch
 
 bool CControl::readMessage(string &result)
 {
-// Creates a buffer for the acknowledgement message
-  char * acknowledgement = new char[CHAR_ARRAY_MAX_SIZE];
-  int sizeAck = -1;
-
-  // Reads the message from the serial monitor when it's available
-  auto startTime = std::chrono::steady_clock::now();
-  while(true)
+  if(m_com.is_open())
   {
-    sizeAck = m_com.read(acknowledgement, CHAR_ARRAY_MAX_SIZE);
+    // Creates a buffer for the acknowledgement message
+    char * acknowledgement = new char[CHAR_ARRAY_MAX_SIZE];
+    int sizeAck = -1;
 
-    if(sizeAck > 0) break;
+    // Reads the message from the serial monitor when it's available
+    auto startTime = std::chrono::steady_clock::now();
+    while(true)
+    {
+      sizeAck = m_com.read(acknowledgement, CHAR_ARRAY_MAX_SIZE);
 
-    // * ChatGPT code that has been modified
-    // waits SERIAL_PORT_DELAY ms every time the loop is run, up to SERIAL_PORT_TIMEOUT ms.
-    auto elapsed_time = std::chrono::steady_clock::now() - startTime;
-      if (std::chrono::duration_cast<std::chrono::milliseconds>(elapsed_time).count() > SERIAL_PORT_TIMEOUT) {
-          return false;
-      }
+      if(sizeAck > 0) break;
 
-      std::this_thread::sleep_for(std::chrono::milliseconds(SERIAL_PORT_DELAY));
+      // * ChatGPT code that has been modified
+      // waits SERIAL_PORT_DELAY ms every time the loop is run, up to SERIAL_PORT_TIMEOUT ms.
+      auto elapsed_time = std::chrono::steady_clock::now() - startTime;
+        if (std::chrono::duration_cast<std::chrono::milliseconds>(elapsed_time).count() > SERIAL_PORT_TIMEOUT) {
+            return false;
+        }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(SERIAL_PORT_DELAY));
+    }
+    m_com.flush();
+
+    string message = acknowledgement;
+    message = message.substr(0, sizeAck - 1);
+
+    result = message;
+    return true;
   }
-  m_com.flush();
-
-  string message = acknowledgement;
-  message = message.substr(0, sizeAck - 1);
-
-  result = message;
-  return true;
+  else return false;
 }
 
 CJoystickPosition CControl::get_analog(bool &pass)
 {
-  int _result1, _result2;
-  bool success = get_data(TYPE_ANALOG, CH_JOYSTICK_X, _result1);
-  success &= get_data(TYPE_ANALOG, CH_JOYSTICK_Y, _result2);
-
-  if(success)
+  if(m_com.is_open())
   {
-    pass = true;
-    return CJoystickPosition(_result1, _result2);
+    int _result1, _result2;
+    bool success = get_data(TYPE_ANALOG, CH_JOYSTICK_X, _result1);
+    success &= get_data(TYPE_ANALOG, CH_JOYSTICK_Y, _result2);
+
+    if(success)
+    {
+      if(_result1 >= 0 && _result2 >= 0) pass = true;
+      else pass = false;
+
+      return CJoystickPosition(_result1, _result2);
+    }
+    else 
+    {
+      pass = false;
+      return CJoystickPosition();
+    }
   }
-  else 
+  else
   {
     pass = false;
     return CJoystickPosition();
@@ -225,21 +246,25 @@ bool CControl::get_button(int channel)
 
 bool CControl::checkPort()
 {
-  string command = COM_CHECK_ALIVE;
-  command += CHAR_LINE_FEED;
-  const char * buffer = command.c_str();
-  int len = command.length();
-
-  m_com.flush();
-  m_com.write(buffer, len);
-
-  string message = "";
-  if(readMessage(message))
+  if(m_flagPortOpen)
   {
-    if(message.compare(COM_ACK_ALIVE) == 0)
-      return true;
+    string command = COM_CHECK_ALIVE;
+    command += CHAR_LINE_FEED;
+    const char * buffer = command.c_str();
+    int len = command.length();
+
+    m_com.flush();
+    m_com.write(buffer, len);
+
+    string message = "";
+    if(readMessage(message))
+    {
+      if(message.compare(COM_ACK_ALIVE) == 0)
+        return true;
+      else return false;
+    } 
     else return false;
-  } 
+  }
   else return false;
 }
 

@@ -70,7 +70,30 @@ void CShip::move(Size board)
 
     if(!collide_wall(board, newPosition))
         _position = newPosition;
-    else _velocity = -1 * _velocity;
+    else
+    {
+        bool xHit = collide_wall(board, Point2i(newPosition.x, board.height/2));
+        bool yHit = collide_wall(board, Point2i(board.width/2, newPosition.y));
+
+        if(xHit && !yHit)
+        {
+            const int oldX = _position.x;
+            const int newY = newPosition.y;
+
+            _position = Point2i(oldX, newY);
+        }
+        else if(!xHit && yHit)
+        {
+            const int newX = newPosition.x;
+            const int oldY = _position.y;
+
+            _position = Point2i(newX, oldY);
+        }
+        else
+        {
+            _position *= -1;
+        }
+    }
 }
 
 void CShip::draw(Mat &im)

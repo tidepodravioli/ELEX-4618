@@ -42,17 +42,17 @@
 #define COM_CHECK_ALIVE "G -1 0" ///< The "check if alive" message (for seeing if the interface is active)
 #define COM_ACK_ALIVE "A -1 0 -1" ///< The expected response to the "check if alive" message
 
-#define CH_SWITCH_S1 0
-#define CH_SWITCH_S2 1
+#define CH_SWITCH_S1 0 ///< Switch S1 digital channel number
+#define CH_SWITCH_S2 1 ///< Switch S2 digital channel number
 
-#define CH_RGBLED_RED_PIN 2
-#define CH_RGBLED_GRN_PIN 3
-#define CH_RGBLED_BLU_PIN 4
+#define CH_RGBLED_RED_PIN 2 ///< RED LED digital/analog channel number
+#define CH_RGBLED_GRN_PIN 3 ///< GREEN LED digital/analog channel number
+#define CH_RGBLED_BLU_PIN 4 ///< BLUE LED digital/analog channel number
 
-#define CH_JOYSTICK_X 0
-#define CH_JOYSTICK_Y 1
+#define CH_JOYSTICK_X 0 ///< Joystick X axis analog channel number
+#define CH_JOYSTICK_Y 1 ///< Joystick Y axis analog channel number
 
-#define SERVO_PORT0 0
+#define SERVO_PORT0 0 ///< Servo Port 0 servo channel number
 
 using namespace std;
 
@@ -78,7 +78,7 @@ private:
      * 
      */
     Serial m_com;
-    bool m_autoConnect;
+    bool m_flagPortOpen = false;
 
     /**
      * @brief Splits input string into a substrings based on a given delimiter
@@ -124,9 +124,8 @@ public:
     /**
      * @brief Construct a new CControl object
      * 
-     * @param autoConnect if the given serial port is disconnected, 
      */
-    CControl(bool autoConnect = false);
+    CControl();
     /**
      * @brief Destroys the CControl object
      * 
