@@ -15,7 +15,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.43.34808/bin/Hostx64/x64/lib.exe"
+			"value" : "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.42.34433/bin/Hostx64/x64/lib.exe"
 		},
 		{
 			"name" : "CMAKE_CACHEFILE_DIR",
@@ -27,7 +27,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "c:/Users/alecb/repo/ELEX-4618/Lab 6/build"
+			"value" : "c:/Users/alecb/repo/OOP/Lab 6/build"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -431,7 +431,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/alecb/repo/ELEX-4618/Lab 6/build/CMakeFiles/pkgRedirects"
+			"value" : "C:/Users/alecb/repo/OOP/Lab 6/build/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -491,7 +491,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/alecb/repo/ELEX-4618/Lab 6"
+			"value" : "C:/Users/alecb/repo/OOP/Lab 6"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -519,7 +519,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.43.34808/bin/Hostx64/x64/link.exe"
+			"value" : "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.42.34433/bin/Hostx64/x64/link.exe"
 		},
 		{
 			"name" : "CMAKE_MODULE_LINKER_FLAGS",
@@ -1027,7 +1027,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "[C:/lib/opencv/build][v4.9.0()]"
+			"value" : "[C:/lib/opencv/build][v4.10.0()]"
 		},
 		{
 			"name" : "Lab6_BINARY_DIR",
@@ -1039,7 +1039,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/alecb/repo/ELEX-4618/Lab 6/build"
+			"value" : "C:/Users/alecb/repo/OOP/Lab 6/build"
 		},
 		{
 			"name" : "Lab6_IS_TOP_LEVEL",
@@ -1063,7 +1063,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/alecb/repo/ELEX-4618/Lab 6"
+			"value" : "C:/Users/alecb/repo/OOP/Lab 6"
 		},
 		{
 			"name" : "OpenCV_DIR",

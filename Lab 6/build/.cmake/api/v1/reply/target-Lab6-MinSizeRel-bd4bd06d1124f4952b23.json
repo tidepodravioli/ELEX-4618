@@ -2,10 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "Release/Lab6.exe"
+			"path" : "MinSizeRel/Lab6.exe"
 		},
 		{
-			"path" : "Release/Lab6.pdb"
+			"path" : "MinSizeRel/Lab6.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -59,26 +59,26 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG"
+					"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O1 /Ob1 /DNDEBUG"
 				}
 			],
 			"includes" : 
 			[
 				{
 					"backtrace" : 3,
-					"path" : "C:/Users/alecb/repo/ELEX-4618/Lab 6/../Common"
+					"path" : "C:/Users/alecb/repo/OOP/Lab 6/../Common"
 				},
 				{
 					"backtrace" : 3,
-					"path" : "C:/Users/alecb/repo/ELEX-4618/Lab 6/../Common/cvui"
+					"path" : "C:/Users/alecb/repo/OOP/Lab 6/../Common/cvui"
 				},
 				{
 					"backtrace" : 3,
-					"path" : "C:/Users/alecb/repo/ELEX-4618/Lab 6/./headers"
+					"path" : "C:/Users/alecb/repo/OOP/Lab 6/./headers"
 				},
 				{
 					"backtrace" : 4,
-					"path" : "C:/Users/alecb/repo/ELEX-4618/Lab 6"
+					"path" : "C:/Users/alecb/repo/OOP/Lab 6"
 				},
 				{
 					"backtrace" : 3,
@@ -122,7 +122,7 @@
 		"commandFragments" : 
 		[
 			{
-				"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG",
+				"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O1 /Ob1 /DNDEBUG",
 				"role" : "flags"
 			},
 			{
@@ -131,82 +131,82 @@
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world490.lib",
+				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world4100.lib",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world490.lib",
+				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world4100.lib",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world490.lib",
+				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world4100.lib",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world490.lib",
+				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world4100.lib",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world490.lib",
+				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world4100.lib",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world490.lib",
+				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world4100.lib",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world490.lib",
+				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world4100.lib",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world490.lib",
+				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world4100.lib",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world490.lib",
+				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world4100.lib",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world490.lib",
+				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world4100.lib",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world490.lib",
+				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world4100.lib",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world490.lib",
+				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world4100.lib",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world490.lib",
+				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world4100.lib",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world490.lib",
+				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world4100.lib",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world490.lib",
+				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world4100.lib",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world490.lib",
+				"fragment" : "C:\\lib\\opencv\\build\\x64\\vc16\\lib\\opencv_world4100.lib",
 				"role" : "libraries"
 			},
 			{
@@ -277,31 +277,31 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "C:/Users/alecb/repo/ELEX-4618/Common/CControl.cpp",
+			"path" : "C:/Users/alecb/repo/OOP/Common/CControl.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "C:/Users/alecb/repo/ELEX-4618/Common/CGameObject.cpp",
+			"path" : "C:/Users/alecb/repo/OOP/Common/CGameObject.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "C:/Users/alecb/repo/ELEX-4618/Common/CJoystickPosition.cpp",
+			"path" : "C:/Users/alecb/repo/OOP/Common/CJoystickPosition.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "C:/Users/alecb/repo/ELEX-4618/Common/Serial.cpp",
+			"path" : "C:/Users/alecb/repo/OOP/Common/Serial.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "C:/Users/alecb/repo/ELEX-4618/Common/getstuff.cpp",
+			"path" : "C:/Users/alecb/repo/OOP/Common/getstuff.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],
