@@ -31,6 +31,21 @@ CSerialCom:: CSerialCom(COMMAND_TYPE type, COMMAND_DATA datatype, int channel, i
     m_value = value;
 }
 
+string CSerialCom::get_command(bool lf)
+{
+    stringstream command;
+    command << returnType(m_commandType) << CSERIAL_SPACE_CHAR;
+    command << (int)m_commandData << CSERIAL_SPACE_CHAR;
+    command << m_channel;
+
+    if(m_value != -1)
+        command << m_value;
+    
+    if(lf) command << '\n';
+    
+    return command.str();
+}
+
 
 
 namespace CSerial
@@ -64,6 +79,21 @@ namespace CSerial
                 return COMMAND_ACK;
             default:
                 return COMMAND_UNF;
+        }
+    }
+
+    char returnType(COMMAND_TYPE type)
+    {
+        switch(type)
+        {
+            case COMMAND_GET:
+                return CSERIALCOM_GET_CHAR;
+            case COMMAND_SET:
+                return CSERIALCOM_SET_CHAR;
+            case COMMAND_ACK:
+                return CSERIALCOM_ACK_CHAR;
+            default:
+                return CSERIALCOM_SPACE_CHAR;
         }
     }
 

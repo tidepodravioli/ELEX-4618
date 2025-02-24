@@ -2,6 +2,8 @@
 #include <sstream>
 #include <vector>
 
+#include <CSerialResponse.hpp>
+
 #define CSERIALCOM_GET_CHAR 'G' ///< Character representing a GET command on the serial bus
 #define CSERIALCOM_SET_CHAR 'S'///< Character representing a SET command on the serial bus
 #define CSERIALCOM_ACK_CHAR 'A'///< Character representing an ACK on the serial bus
@@ -45,6 +47,10 @@ namespace CSerial
 
 using namespace CSerial;
 
+/**
+ * @brief Represents a packet of data (as given by the data being sent/received) by CControl2
+ * 
+ */
 class CSerialCom
 {
     protected:
@@ -52,6 +58,8 @@ class CSerialCom
     COMMAND_DATA m_commandData; ///< Type of data this object's command deals with
     int m_channel; ///< The channel the data/value is from/being sent to
     int m_value; ///< The data/value written/read
+    
+    friend class CSerialResponse;
 
     public:
 
