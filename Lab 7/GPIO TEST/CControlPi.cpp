@@ -36,9 +36,14 @@ void CControlPi::get_data (int gpioChannel, int &result)
   result = gpioRead(gpioChannel);
 }
 
-void CControlPi::set_data(int gpioChannel, int val)
+void CControlPi::set_data(int gpioChannel, int val, bool pwm)
 {
-  gpioWrite(gpioChannel, val);
+  if((val == 0 || val == 1) && !pwm)
+    gpioWrite(gpioChannel, val);
+  else
+  {
+    gpioServo(gpioChannel, val);
+  }
 }
 
 
