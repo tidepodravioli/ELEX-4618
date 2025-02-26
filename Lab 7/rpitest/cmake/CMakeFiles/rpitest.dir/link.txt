@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/rpitest.dir/main.cpp.o -o rpitest  /usr/lib/libpigpio.so -lcurses /usr/lib/aarch64-linux-gnu/libform.so -lpthread 

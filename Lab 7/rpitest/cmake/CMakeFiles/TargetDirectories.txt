@@ -1,0 +1,3 @@
+/home/banalan4618/source/ELEX-4618/Lab 7/rpitest/cmake/CMakeFiles/rebuild_cache.dir
+/home/banalan4618/source/ELEX-4618/Lab 7/rpitest/cmake/CMakeFiles/edit_cache.dir
+/home/banalan4618/source/ELEX-4618/Lab 7/rpitest/cmake/CMakeFiles/rpitest.dir

@@ -1,0 +1,56 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/banalan4618/source/ELEX-4618/Lab 7/GPIO TEST/CControlPi.hpp
+CJoystickPosition.hpp
+/home/banalan4618/source/ELEX-4618/Lab 7/GPIO TEST/CJoystickPosition.hpp
+pigpio.h
+/home/banalan4618/source/ELEX-4618/Lab 7/GPIO TEST/pigpio.h
+iostream
+-
+iomanip
+-
+string
+-
+sstream
+-
+chrono
+-
+thread
+-
+vector
+-
+
+/home/banalan4618/source/ELEX-4618/Lab 7/GPIO TEST/CJoystickPosition.hpp
+
+/home/banalan4618/source/ELEX-4618/Lab 7/GPIO TEST/IOTest.cpp
+IOTest.hpp
+/home/banalan4618/source/ELEX-4618/Lab 7/GPIO TEST/IOTest.hpp
+
+/home/banalan4618/source/ELEX-4618/Lab 7/GPIO TEST/IOTest.hpp
+iostream
+-
+stdio.h
+-
+ncurses.h
+-
+unistd.h
+-
+getstuff.h
+/home/banalan4618/source/ELEX-4618/Lab 7/GPIO TEST/getstuff.h
+CControlPi.hpp
+/home/banalan4618/source/ELEX-4618/Lab 7/GPIO TEST/CControlPi.hpp
+
+/home/banalan4618/source/ELEX-4618/Lab 7/GPIO TEST/getstuff.h
+iostream
+-
+regex
+-
+string
+-
+
