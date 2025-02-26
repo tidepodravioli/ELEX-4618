@@ -1,0 +1,122 @@
+\doxysection{C\+:/\+Users/alecb/repo/\+ELEX-\/4618/\+Common/\+CControl.h File Reference}
+\hypertarget{_c_control_8h}{}\label{_c_control_8h}\index{C:/Users/alecb/repo/ELEX-\/4618/Common/CControl.h@{C:/Users/alecb/repo/ELEX-\/4618/Common/CControl.h}}
+
+
+Represents a serial interface between the computer and a microcontroller.  
+
+
+{\ttfamily \#include "{}Serial.\+h"{}}\newline
+{\ttfamily \#include "{}CJoystick\+Position.\+hpp"{}}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$iomanip$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$chrono$>$}\newline
+{\ttfamily \#include $<$thread$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_c_control}{CControl}}
+\begin{DoxyCompactList}\small\item\em Represents a serial interface between the computer and a microcontroller. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{_c_control_8h_abb212c53711351ab29223a2b5411a191}\label{_c_control_8h_abb212c53711351ab29223a2b5411a191} 
+\#define {\bfseries CHAR\+\_\+\+ARRAY\+\_\+\+MAX\+\_\+\+SIZE}~32
+\begin{DoxyCompactList}\small\item\em Maximum size for the serial input buffer. \end{DoxyCompactList}\item 
+\Hypertarget{_c_control_8h_aa74e19d337f87d0ee26c7a412291dc28}\label{_c_control_8h_aa74e19d337f87d0ee26c7a412291dc28} 
+\#define {\bfseries SERIAL\+\_\+\+PORT\+\_\+\+DELAY}~5
+\begin{DoxyCompactList}\small\item\em Wait this long (in ms) before checking for a response on the serial bus again. \end{DoxyCompactList}\item 
+\Hypertarget{_c_control_8h_a9f6fef43fe66919598f64770cb73a696}\label{_c_control_8h_a9f6fef43fe66919598f64770cb73a696} 
+\#define {\bfseries SERIAL\+\_\+\+PORT\+\_\+\+TIMEOUT}~2000
+\begin{DoxyCompactList}\small\item\em Time before the serial monitor times out. \end{DoxyCompactList}\item 
+\Hypertarget{_c_control_8h_a52cc925fa3115cb067e0db220790ca12}\label{_c_control_8h_a52cc925fa3115cb067e0db220790ca12} 
+\#define {\bfseries SERIAL\+\_\+\+PORT\+\_\+\+CHECK\+\_\+\+TO\+\_\+\+MAX}~15
+\begin{DoxyCompactList}\small\item\em When finding a port to connect to, check from COM0 to this number. \end{DoxyCompactList}\item 
+\Hypertarget{_c_control_8h_a51f6fea7e2d87b1825f42b90e4aabc45}\label{_c_control_8h_a51f6fea7e2d87b1825f42b90e4aabc45} 
+\#define {\bfseries BUTTON\+\_\+\+DEBOUNCE\+\_\+\+TIMEOUT}~50
+\begin{DoxyCompactList}\small\item\em How long to wait before validating a button press (can be overriden) \end{DoxyCompactList}\item 
+\Hypertarget{_c_control_8h_a9a651e121f608352f3012f4cc8156e61}\label{_c_control_8h_a9a651e121f608352f3012f4cc8156e61} 
+\#define {\bfseries BUTTON\+\_\+\+NUM\+\_\+\+OF\+\_\+\+CHANNELS}~2
+\begin{DoxyCompactList}\small\item\em Number of button channels to account for (important for addressing arrays) \end{DoxyCompactList}\item 
+\Hypertarget{_c_control_8h_a838895e97bba6a056f31a74cd7bdbe79}\label{_c_control_8h_a838895e97bba6a056f31a74cd7bdbe79} 
+\#define {\bfseries COM\+\_\+\+GET\+\_\+\+CHAR}~"{}G"{}
+\begin{DoxyCompactList}\small\item\em Character representing a GET command on the serial bus. \end{DoxyCompactList}\item 
+\Hypertarget{_c_control_8h_a39ea175f8900da582957dceb3eafcf60}\label{_c_control_8h_a39ea175f8900da582957dceb3eafcf60} 
+\#define {\bfseries COM\+\_\+\+SET\+\_\+\+CHAR}~"{}S"{}
+\begin{DoxyCompactList}\small\item\em Character representing a SET command on the serial bus. \end{DoxyCompactList}\item 
+\Hypertarget{_c_control_8h_a8daa65a10609783e453086d415112307}\label{_c_control_8h_a8daa65a10609783e453086d415112307} 
+\#define {\bfseries COM\+\_\+\+ACK\+\_\+\+CHAR}~"{}A"{}
+\begin{DoxyCompactList}\small\item\em Character representing an ACK on the serial bus. \end{DoxyCompactList}\item 
+\Hypertarget{_c_control_8h_a014523da1ebe95964d8fe8e78556821e}\label{_c_control_8h_a014523da1ebe95964d8fe8e78556821e} 
+\#define {\bfseries CHAR\+\_\+\+LINE\+\_\+\+FEED}~\textquotesingle{}\textbackslash{}n\textquotesingle{}
+\begin{DoxyCompactList}\small\item\em Represents an LF character literal. \end{DoxyCompactList}\item 
+\Hypertarget{_c_control_8h_ae4e0e1c228bf5bb1d8fe201e8695eb36}\label{_c_control_8h_ae4e0e1c228bf5bb1d8fe201e8695eb36} 
+\#define {\bfseries CHAR\+\_\+\+SPACE}~\textquotesingle{} \textquotesingle{}
+\begin{DoxyCompactList}\small\item\em Represents a space character literal. \end{DoxyCompactList}\item 
+\Hypertarget{_c_control_8h_a88dc223ea6c72cd998e96d93c6ddc3bc}\label{_c_control_8h_a88dc223ea6c72cd998e96d93c6ddc3bc} 
+\#define {\bfseries BLANK\+\_\+\+STRING}~"{}"{}
+\begin{DoxyCompactList}\small\item\em Represents a blank string literal. \end{DoxyCompactList}\item 
+\Hypertarget{_c_control_8h_a6aea74f660f4f4a1fae81e0b0cf79f96}\label{_c_control_8h_a6aea74f660f4f4a1fae81e0b0cf79f96} 
+\#define {\bfseries COM\+\_\+\+CHECK\+\_\+\+ALIVE}~"{}G -\/1 0"{}
+\begin{DoxyCompactList}\small\item\em The "{}check if alive"{} message (for seeing if the interface is active) \end{DoxyCompactList}\item 
+\Hypertarget{_c_control_8h_a97d119da45495e5d562429da9c683ce6}\label{_c_control_8h_a97d119da45495e5d562429da9c683ce6} 
+\#define {\bfseries COM\+\_\+\+ACK\+\_\+\+ALIVE}~"{}A -\/1 0 -\/1"{}
+\begin{DoxyCompactList}\small\item\em The expected response to the "{}check if alive"{} message. \end{DoxyCompactList}\item 
+\Hypertarget{_c_control_8h_a8762bb089134135b3cfe71a6fb837385}\label{_c_control_8h_a8762bb089134135b3cfe71a6fb837385} 
+\#define {\bfseries CH\+\_\+\+SWITCH\+\_\+\+S1}~0
+\begin{DoxyCompactList}\small\item\em Switch S1 digital channel number. \end{DoxyCompactList}\item 
+\Hypertarget{_c_control_8h_a9cfd248d464e333605ba7a6a2e3b2302}\label{_c_control_8h_a9cfd248d464e333605ba7a6a2e3b2302} 
+\#define {\bfseries CH\+\_\+\+SWITCH\+\_\+\+S2}~1
+\begin{DoxyCompactList}\small\item\em Switch S2 digital channel number. \end{DoxyCompactList}\item 
+\Hypertarget{_c_control_8h_a23cc91f7ea34570bf38ba929467cedfd}\label{_c_control_8h_a23cc91f7ea34570bf38ba929467cedfd} 
+\#define {\bfseries CH\+\_\+\+RGBLED\+\_\+\+RED\+\_\+\+PIN}~2
+\begin{DoxyCompactList}\small\item\em RED LED digital/analog channel number. \end{DoxyCompactList}\item 
+\Hypertarget{_c_control_8h_ae09cf6117428d18dd9537b2d3b2de61a}\label{_c_control_8h_ae09cf6117428d18dd9537b2d3b2de61a} 
+\#define {\bfseries CH\+\_\+\+RGBLED\+\_\+\+GRN\+\_\+\+PIN}~3
+\begin{DoxyCompactList}\small\item\em GREEN LED digital/analog channel number. \end{DoxyCompactList}\item 
+\Hypertarget{_c_control_8h_a676150d592752125748632c532dc43c9}\label{_c_control_8h_a676150d592752125748632c532dc43c9} 
+\#define {\bfseries CH\+\_\+\+RGBLED\+\_\+\+BLU\+\_\+\+PIN}~4
+\begin{DoxyCompactList}\small\item\em BLUE LED digital/analog channel number. \end{DoxyCompactList}\item 
+\Hypertarget{_c_control_8h_ae10f8401f019378a0a7849f46ac51312}\label{_c_control_8h_ae10f8401f019378a0a7849f46ac51312} 
+\#define {\bfseries CH\+\_\+\+JOYSTICK\+\_\+X}~0
+\begin{DoxyCompactList}\small\item\em Joystick X axis analog channel number. \end{DoxyCompactList}\item 
+\Hypertarget{_c_control_8h_ab86ebae8a25a86660de669d0f6006c0a}\label{_c_control_8h_ab86ebae8a25a86660de669d0f6006c0a} 
+\#define {\bfseries CH\+\_\+\+JOYSTICK\+\_\+Y}~1
+\begin{DoxyCompactList}\small\item\em Joystick Y axis analog channel number. \end{DoxyCompactList}\item 
+\Hypertarget{_c_control_8h_a8c2de1483094390ab9e33e18dd3d2e04}\label{_c_control_8h_a8c2de1483094390ab9e33e18dd3d2e04} 
+\#define {\bfseries SERVO\+\_\+\+PORT0}~0
+\begin{DoxyCompactList}\small\item\em Servo Port 0 servo channel number. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{_c_control_8h_a13bd38766753a1ef2cf1e3888d15fe0c}\label{_c_control_8h_a13bd38766753a1ef2cf1e3888d15fe0c} 
+enum \mbox{\hyperlink{_c_control_8h_a13bd38766753a1ef2cf1e3888d15fe0c}{COMMAND\+\_\+\+TYPE}} \{ {\bfseries COMMAND\+\_\+\+GET}
+, {\bfseries COMMAND\+\_\+\+SET}
+, {\bfseries COMMAND\+\_\+\+ACK}
+ \}
+\begin{DoxyCompactList}\small\item\em Type of command being sent/received. \end{DoxyCompactList}\item 
+\Hypertarget{_c_control_8h_aa082c000e4eff6ed512714ea0a33d27b}\label{_c_control_8h_aa082c000e4eff6ed512714ea0a33d27b} 
+enum \mbox{\hyperlink{_c_control_8h_aa082c000e4eff6ed512714ea0a33d27b}{DATA\+\_\+\+TYPE}} \{ {\bfseries TYPE\+\_\+\+DIGITAL}
+, {\bfseries TYPE\+\_\+\+ANALOG}
+, {\bfseries TYPE\+\_\+\+SERVO}
+ \}
+\begin{DoxyCompactList}\small\item\em Type of data being sent/received. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents a serial interface between the computer and a microcontroller. 
+
+\begin{DoxyAuthor}{Author}
+Rafael Banalan A01367816 4S (\href{mailto:abanalan@my.bcit.ca}{\texttt{ abanalan@my.\+bcit.\+ca}}) 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2025-\/01-\/29
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2025 
+\end{DoxyCopyright}

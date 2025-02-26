@@ -27,24 +27,25 @@ CControlPi::~CControlPi()
 
 void CControlPi::launchpadInit()
 {
-    gpioSetMode(CH_SWITCH_S1, PI_INPUT);
-    gpioSetMode(CH_SWITCH_S2, PI_INPUT);
+    
 }
 
 void CControlPi::get_data (int gpioChannel, int &result)
 {
-  result = gpioRead(gpioChannel);
+  result = gpioRead(DIGITAL_PINS[gpioChannel]);
 }
 
 void CControlPi::set_data(int gpioChannel, int val, bool pwm)
 {
   if((val == 0 || val == 1) && !pwm)
-    gpioWrite(gpioChannel, val);
+    gpioWrite(DIGITAL_PINS[gpioChannel], val);
   else
   {
-    gpioServo(gpioChannel, val);
+    gpioPWM(DIGITAL_PINS[gpioChannel], val);
   }
 }
+
+
 
 
 CJoystickPosition CControlPi::get_analog()
@@ -60,24 +61,27 @@ CJoystickPosition CControlPi::get_analog()
   else return CJoystickPosition();
 }
 
-bool CControlPi::get_button(int channel, int savech)
+bool CControlPi::get_button(int channel)
 {
   int result = -1;
   get_data(channel, result);
 
   if(result == 1)
   {
-    m_lastDebounceTimes[savech] = chrono::system_clock::now();
-    m_buttonActive[savech] = false;
+    m_lastDebounceTimes[channel] = chrono::system_clock::now();
+    m_buttonActive[channel] = false;
     return false;
   }
   else if(result == 0)
   {
-    auto elapsed_time = chrono::system_clock::now() - m_lastDebounceTimes[savech];
+    auto elapsed_time = chrono::system_clock::now() - m_lastDebounceTimes[channel];
+
+    // Undo the comment below to debug the proper debounce time!
     //cout << chrono::duration_cast<std::chrono::milliseconds>(elapsed_time).count() << endl;
-    if(!m_buttonActive[savech] && chrono::duration_cast<std::chrono::milliseconds>(elapsed_time).count() > BUTTON_DEBOUNCE_TIMEOUT)
+
+    if(!m_buttonActive[channel] && chrono::duration_cast<std::chrono::milliseconds>(elapsed_time).count() > BUTTON_DEBOUNCE_TIMEOUT)
     {
-      m_buttonActive[savech] = true;
+      m_buttonActive[channel] = true;
       return true;
     }
 
