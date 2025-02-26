@@ -1,0 +1,62 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/banalan4618/source/Lab 2/tinyxml/tinystr.cpp
+tinystr.h
+/home/banalan4618/source/Lab 2/tinyxml/tinystr.h
+
+/home/banalan4618/source/Lab 2/tinyxml/tinystr.h
+assert.h
+-
+string.h
+-
+
+/home/banalan4618/source/Lab 2/tinyxml/tinyxml.cpp
+ctype.h
+-
+sstream
+-
+iostream
+-
+tinyxml.h
+/home/banalan4618/source/Lab 2/tinyxml/tinyxml.h
+
+/home/banalan4618/source/Lab 2/tinyxml/tinyxml.h
+ctype.h
+-
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+assert.h
+-
+string
+-
+iostream
+-
+sstream
+-
+tinystr.h
+/home/banalan4618/source/Lab 2/tinyxml/tinystr.h
+
+/home/banalan4618/source/Lab 2/tinyxml/tinyxmlerror.cpp
+tinyxml.h
+/home/banalan4618/source/Lab 2/tinyxml/tinyxml.h
+
+/home/banalan4618/source/Lab 2/tinyxml/tinyxmlparser.cpp
+ctype.h
+-
+stddef.h
+-
+tinyxml.h
+/home/banalan4618/source/Lab 2/tinyxml/tinyxml.h
+windows.h
+-
+

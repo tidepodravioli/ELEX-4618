@@ -1,0 +1,13 @@
+<grocery>
+    <item name="Skittles" price="2.49" quantity="301" />
+    <item name="Sour Patch Kids" price="3.79" quantity="127" />
+    <item name="Maltesers" price="3.77" quantity="1900" />
+    <item name="Chocolate" price="2.99" quantity="345" />
+    <item name="Popcorn" price="1.99" quantity="547" />
+	<item name="Reeses" price="1.99" quantity="547" />
+	<item name="Kit Kats" price="1.99" quantity="547" />
+	<item name="Fuzzy Peach" price="1.99" quantity="547" />
+	<item name="Bounty Bar" price="1.99" quantity="547" />
+	<item name="Kinder Eggs" price="1.99" quantity="547" />
+	<item name="Pocky" price="1.99" quantity="547" />
+</grocery>

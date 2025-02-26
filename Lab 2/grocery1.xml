@@ -1,0 +1,7 @@
+<grocery>
+	<product name="Milk" price="4.99" quantity="20"/>
+	<product name="Eggs" price="2.99" quantity="50"/>
+	<product name="Cheese" price="8.49" quantity="90"/>
+	<product name="Cereal" price="7.45" quantity="78"/>
+	<product name="Ground pork" price="3.12" quantity="64"/>
+</grocery>
