@@ -30,26 +30,24 @@
 #define CH_SWITCH_S1 24 ///< GPIO pin for S1
 #define CH_SWITCH_S2 23 ///< GPIO pin for S2
 
-#define CH_RGBLED_RED_PIN 2
-#define CH_RGBLED_GRN_PIN 3
-#define CH_RGBLED_BLU_PIN 4
+#define CH_RGBLED_RED_PIN 12
+#define CH_RGBLED_GRN_PIN 6
+#define CH_RGBLED_BLU_PIN 5
 
 #define CH_JOYSTICK_X 0
 #define CH_JOYSTICK_Y 1
 
-#define SERVO_PORT0 0
+#define SERVO_PORT0 26
 
-#define ADC_SPI_CLK 11
-#define ADC_SPI_MISO 9
-#define ADC_SPI_MOSI 10
-#define ADC_SPI_CS 8
+#define OFF_VALUE 0
 
 /** @name RPI GPIO channels
  *  @brief These arrays define the channel numbers used in CControlPi. Note that a method may
  * only access one of these arrays, since not every channel set is needed for a given operation.
  * @{
  */
-#define COUNT_DIGITAL_PINS 5
+#define COUNT_DIGITAL_IN_PINS 2
+#define COUNT_DIGITAL_OUT_PINS 3
 #define COUNT_ANALOG_PINS 2
 #define COUNT_SERVO_PINS 1
 
@@ -86,7 +84,8 @@ class CControlPi {
          * 
          */
         bool m_buttonActive[BUTTON_NUM_OF_CHANNELS];
-    
+
+        int m_spiHandle;    
     public:
         /**
          * @brief Construct a new CControl object
@@ -144,4 +143,4 @@ class CControlPi {
           */
         bool get_button(int channel);
 
-    };
+};

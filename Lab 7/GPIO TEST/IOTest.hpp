@@ -10,6 +10,8 @@
  */
 #include <iostream>
 #include <stdio.h>
+#include <thread>
+#include <chrono>
 #include <ncurses.h>
 #include <unistd.h>
 
@@ -41,7 +43,7 @@ class IOTest
     void servoTest();
     void digitalTest();
 
-    //void delay(int ms);
+    void delay(int ms);
     void init_kbhit();
     void end_kbhit();
     

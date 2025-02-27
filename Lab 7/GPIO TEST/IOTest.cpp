@@ -69,7 +69,6 @@ void IOTest::run()
 void IOTest::joystickTest()
 {
     cout << "Starting joystick test..." << endl;
-    init_kbhit();
 
     int errorCount = 0;
     while(true)
@@ -90,16 +89,18 @@ void IOTest::joystickTest()
         cout << left  << setw(COLUMN_WIDTH) << column1.str() << setw(COLUMN_WIDTH) << column2.str() << endl; 
         errorCount = 0;
 
+        init_kbhit();
         int ch = getch();
         if(ch == QUIT_KEY)
         {
             refresh();
+            end_kbhit();
             break;
         }
+        end_kbhit();
     }
 
     cout << "Detected keypress, exiting to main menu..." << endl;
-    end_kbhit();
 }
 
 void IOTest::buttonTest()
@@ -110,7 +111,7 @@ void IOTest::buttonTest()
     int clickCount = 0;
     while(true)
     {
-        bool result = m_port->get_button(CH_SWITCH_S1);
+        bool result = m_port->get_button(0);
 
         if(result)
         {
@@ -136,22 +137,26 @@ void IOTest::servoTest()
 {
     while(true)
     {
-        m_port->set_data(SERVO_PORT0, 180);
+        m_port->set_servo(0, 180);
 
         cout << "SERVO TEST: CH-S0 : 180" << endl;
-        //delay(BUTTON_DEBOUNCE_TIMEOUT);
+        delay(1000);
 
-        m_port->set_data(SERVO_PORT0, -180);
+        m_port->set_servo(0, 0);
 
         cout << "SERVO TEST: CH-S0 : -180" << endl;
-        //delay(BUTTON_DEBOUNCE_TIMEOUT);
+        delay(1000);
 
+        init_kbhit();
         int ch = getch();
         if(ch == QUIT_KEY)
         {
             refresh();
+            end_kbhit();
             break;
         }
+        end_kbhit();
+
     }
 
     cout << "Detected keypress, exiting to main menu..." << endl;
@@ -163,10 +168,20 @@ void IOTest::digitalTest()
     while(true)
     {
         int buttonState = -1;
-        m_port->get_data(CH_SWITCH_S1, buttonState);
+        m_port->get_data(0, buttonState);
 
-        m_port->set_data(CH_RGBLED_GRN_PIN, buttonState);
-        cout << "DIGITAL TEST: CH-D2 : " << buttonState << endl;        
+        m_port->set_data(0, buttonState);
+        cout << "DIGITAL TEST: CH-D2 : " << buttonState << endl;    
+        
+        init_kbhit();
+        int ch = getch();
+        if(ch == QUIT_KEY)
+        {
+            refresh();
+            end_kbhit();
+            break;
+        }
+        end_kbhit();
     }
 
     cout << "Detected keypress, exiting to main menu..." << endl;
@@ -201,3 +216,7 @@ char IOTest::get_key()
     return keyPressed;
 }
 
+void IOTest::delay(int ms)
+{
+    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+}
