@@ -1,4 +1,4 @@
-#include "CControlPi.hpp"
+#include "headers/CControlPi.hpp"
 
 using namespace std;
 
@@ -114,5 +114,4 @@ bool CControlPi::get_button(int channel)
     return false;
   }
 
-  return false;
 }

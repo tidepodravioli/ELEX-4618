@@ -1,21 +1,21 @@
-#include <../Common/CBase4618Pi.hpp>
+#pragma once
+#include <headers/CBase4618Pi.hpp>
 #include <headers/CAsteroid.hpp>
 #include <headers/CMissle.hpp>
 #include <headers/CShip.hpp>
-#include <../Common/CJoystickPosition.hpp>
+#include <headers/CJoystickPosition.hpp>
 
 #include <vector>
 #include <thread>
 
 #include <chrono>
 
-#define BUTTON_DEBOUNCE_TIMEOUT 250 ///< Debounce for the buttons in gpio (in ms)
+
+#define BUTTON_DEBOUNCE_TIMEOUT 90 ///< Debounce for the buttons in gpio (in ms)
 
 #define CASTEROIDGAME_PROGRAM_TITLE "Lab 6 - Asteroids" ///< The name to put at the top of the window
 #define CASTEROIDGAME_MAX_ASTEROIDS 100 ///< Maximum amount of asteroids allowed on the game field
 #define CASTEROIDGAME_NEXT_ASTEROID 600 ///< Time to wait until the next asteroid is generated (in milliseconds)
-#define CASTEROIDGAME_SERIAL_TIME_MAX 10 ///< How long (in seconds) it should be until the game thinks the serial is inactive
-#define CASTEROIDGAME_MAX_SERIAL_ERRORS 10 ///< How many serial errors to tolerate until the serial should reconnect
 
 using namespace cv;
 using namespace std;
@@ -48,15 +48,10 @@ class CAsteroidGamePi : CBase4618Pi
     bool m_flagGameOver = false; ///< Flag that ends the game if true
     bool m_flagGameReset = false; ///< Flag that resets the game if true
     bool m_flagGenerateAsteroid = true; ///< Flag that causes the game to see if it can start spawning a new asteroid if true
-    bool m_flagSerialConnected = false; ///< Flag that indicates to the game if the serial is connected or not
+    bool m_flagS1pressed = false;
+    bool m_flagS2pressed = false;
     
     int m_playerScore = 0; ///< The current score of the ongoing game
-
-    /**
-     * @brief Sets up or reconnects the GPIO
-     * 
-     */
-    void setupGPIO();
 
     /**
      * @brief Draws the UI on 'm_canvas'

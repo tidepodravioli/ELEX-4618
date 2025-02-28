@@ -10,11 +10,13 @@
  */
 #pragma once
 
-#define JOYSTICK_X_MIN 450 ///< Minimum joystick analog x value
-#define JOYSTICK_X_MAX 3650 ///< Maximum joystick analog x value
+#define JOYSTICK_X_MIN 107 ///< Minimum joystick analog x value
+#define JOYSTICK_X_MAX 920 ///< Maximum joystick analog x value
 
-#define JOYSTICK_Y_MIN 600 ///< Minimum joystick analog x value
-#define JOYSTICK_Y_MAX 3920 ///< Maximum joystick analog x value
+#define JOYSTICK_Y_MIN 140 ///< Minimum joystick analog x value
+#define JOYSTICK_Y_MAX 984 ///< Maximum joystick analog x value
+
+
 
 /**
  * @name JOYSTICK_IGNORE

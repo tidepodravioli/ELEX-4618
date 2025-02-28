@@ -1,4 +1,4 @@
-#include <..\Common\CGameObject.hpp>
+#include <../../Common/CGameObject.hpp>
 
 #define CASTEROID_MAX_SIZE 20 ///< The maximum size of an asteroid (in pixel radius)
 #define CASTEROID_MIN_SIZE 10 ///< The minimum size of an asteroid (in pixel radius)

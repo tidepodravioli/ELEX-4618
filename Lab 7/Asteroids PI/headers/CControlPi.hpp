@@ -16,7 +16,7 @@
 #define JOYSTICK_Y_MIN 140 ///< Minimum joystick analog x value
 #define JOYSTICK_Y_MAX 984 ///< Maximum joystick analog x value
 
-#include "CJoystickPosition.hpp"
+#include "headers/CJoystickPosition.hpp"
 #include "pigpio.h"
 
 #include <iostream>

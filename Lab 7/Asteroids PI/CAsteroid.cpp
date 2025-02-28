@@ -1,4 +1,4 @@
-#include <headers\CAsteroid.hpp>
+#include <headers/CAsteroid.hpp>
 
 CAsteroid::CAsteroid(Size board)
 {
@@ -8,8 +8,8 @@ CAsteroid::CAsteroid(Size board)
     _lives = _radius / 5;
 
     const int randomX = rand() % board.width + 1;
-    const int velX = rand() % 3 - 1;
-    const int velY = rand() % 3 + 1;
+    const int velX = rand() % 2 - 1;
+    const int velY = rand() % 2 + 1;
 
     _position = Point2i(randomX, _radius);
     _velocity = Point2f(velX, velY);

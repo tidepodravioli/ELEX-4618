@@ -198,7 +198,6 @@ void IOTest::printMenu()
     cout << "(D)igital test" << endl;
     cout << "(B)utton test" << endl;
     cout << "(S)ervo write" << endl;
-    cout << "(C)onnection settings" << endl;
     cout << "(Q)uit" << endl;
     cout << "CMD> " << std::flush;
 }

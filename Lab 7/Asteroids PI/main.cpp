@@ -1,7 +1,9 @@
-#include <headers/CAsteroidGame.hpp>
+#include <headers/CAsteroidGamePi.hpp>
 
 int main()
 {
-    CAsteroidGame game(cv::Size(1000,800));
+    CAsteroidGamePi game(cv::Size(1000,800));
     game.run();
+
+    return 0;
 }

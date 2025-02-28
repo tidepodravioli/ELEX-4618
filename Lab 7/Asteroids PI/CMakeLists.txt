@@ -5,7 +5,12 @@ set(OpenCV_STATIC ON)
 set(OpenCV_RUNTIME vc16)
 find_package(OpenCV REQUIRED)
 
-include_directories(${OpenCV_INCLUDE_DIRS} "../Common" "../Common/cvui" "./headers")
+find_library(PIGPIO_LIB NAMES pigpio REQUIRED)
+find_library(PIGPIOD_IF2_LIB NAMES pigpiod_if2 REQUIRED)
+find_package(Curses REQUIRED)
+include_directories(${CURSES_INCLUDE_DIR})
+
+include_directories(${OpenCV_INCLUDE_DIRS} "../../Common" "../../Common/cvui" "./headers")
 link_directories(${OpenCV_LIB_DIR})
 
 
@@ -13,9 +18,13 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 file(GLOB SOURCES "*.cpp")
-file(GLOB COMMON "../Common/*.cpp")
-add_executable(Lab7 ${SOURCES} ${COMMON}) 
+#file(GLOB COMMON "../../Common/*.cpp")
+add_executable(Lab7 ${SOURCES} "../../Common/CGameObject.cpp" "../../Common/getstuff.cpp") 
 
-target_link_libraries(Lab7 PRIVATE ${OpenCV_LIBS})
+target_link_libraries(Lab7 PRIVATE ${OpenCV_LIBS} ${PIGPIO_LIB} ${PIGPIO_IF2_LIB} ${CURSES_LIBRARIES})
 target_include_directories(Lab7 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${OpenCV_INCLUDE_DIRS})
+
+set(THREADS_PREFER_THREAD_FLAG ON)
+find_package(Threads REQUIRED)
+target_link_libraries(Lab7 PRIVATE Threads::Threads)
 

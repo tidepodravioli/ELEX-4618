@@ -1,4 +1,4 @@
-#include "CJoystickPosition.hpp"
+#include "headers/CJoystickPosition.hpp"
 
 CJoystickPosition::CJoystickPosition()
 {
@@ -43,6 +43,14 @@ int CJoystickPosition::percentY()
 bool CJoystickPosition::withinValues(int input, int min, int max)
 {
     return (min <= input && input <= max);
+}
+
+bool CJoystickPosition::joystickActive()
+{
+    const int px = percentX();
+    const int py = percentY();
+
+    return (px <= JOYSTICK_IGNORE_LRVP || px >= JOYSTICK_IGNORE_URVP) || (py <= JOYSTICK_IGNORE_LRVP || py >= JOYSTICK_IGNORE_URVP);
 }
 
 JOYSTICK_DIRECTION CJoystickPosition::get_direction()
@@ -109,9 +117,6 @@ JOYSTICK_DIRECTION CJoystickPosition::get_opposite_direction()
         case JOYSTICK_DIRECTION_CENTER:
             return JOYSTICK_DIRECTION_CENTER;
             break;
-        default:
-            return JOYSTICK_DIRECTION_CENTER;
-            break;
     }
 }
 
@@ -120,14 +125,26 @@ JOYSTICK_DIRECTION CJoystickPosition::get_simple_direction()
     const int px = percentX();
     const int py = percentY();
 
-    if(py > JOYSTICK_IGNORE_URVP)
-        return JOYSTICK_DIRECTION_NORTH;
-    else if(px > JOYSTICK_IGNORE_URVP)
-        return JOYSTICK_DIRECTION_EAST;
-    else if(py < JOYSTICK_IGNORE_LRVP)
-        return JOYSTICK_DIRECTION_SOUTH;
-    else if(px < JOYSTICK_IGNORE_LRVP)
-        return JOYSTICK_DIRECTION_WEST;
+    if(px < JOYSTICK_IGNORE_LRVP || px > JOYSTICK_IGNORE_URVP || py < JOYSTICK_IGNORE_LRVP || py > JOYSTICK_IGNORE_URVP)
+    {
+        if(py > px) // NORTH AND WEST
+        {
+            if(withinValues(px, 12, 86) && py > JOYSTICK_IGNORE_URVP)
+                return JOYSTICK_DIRECTION_NORTH;
+            else if(withinValues(py, 12, 86) && px < JOYSTICK_IGNORE_LRVP)
+                return JOYSTICK_DIRECTION_WEST;
+            else return JOYSTICK_DIRECTION_WEST;
+        }
+        else if (px > py) // EAST AND SOUTH
+        {
+            if(withinValues(px, 12, 86) && py < JOYSTICK_IGNORE_LRVP)
+                return JOYSTICK_DIRECTION_SOUTH;
+            else if(withinValues(py, 12, 86) && px > JOYSTICK_IGNORE_URVP)
+                return JOYSTICK_DIRECTION_EAST;
+            else return JOYSTICK_DIRECTION_EAST;
+        }
+        return JOYSTICK_DIRECTION_CENTER;
+    }
     else
         return JOYSTICK_DIRECTION_CENTER;
 }
@@ -171,8 +188,39 @@ namespace direction_op
             case JOYSTICK_DIRECTION_CENTER:
                 return JOYSTICK_DIRECTION_CENTER;
                 break;
-            default:
-                return JOYSTICK_DIRECTION_CENTER;
+        }
+    }
+
+    std::string get_direction_string(JOYSTICK_DIRECTION direction)
+    {
+        switch(direction)
+        {
+            case JOYSTICK_DIRECTION_NORTH:
+                return "NORTH";
+                break;
+            case JOYSTICK_DIRECTION_NORTHEAST:
+                return "NORTHEAST";
+                break;
+            case JOYSTICK_DIRECTION_EAST:
+                return "EAST";
+                break;
+            case JOYSTICK_DIRECTION_SOUTHEAST:
+                return "SOUTHEAST";
+                break;
+            case JOYSTICK_DIRECTION_SOUTH:
+                return "SOUTH";
+                break;
+            case JOYSTICK_DIRECTION_SOUTHWEST:
+                return "SOUTHWEST";
+                break;
+            case JOYSTICK_DIRECTION_WEST:
+                return "WEST";
+                break;
+            case JOYSTICK_DIRECTION_NORTHWEST:
+                return "NORTHWEST";
+                break;
+            case JOYSTICK_DIRECTION_CENTER:
+                return "CENTER";
                 break;
         }
     }
