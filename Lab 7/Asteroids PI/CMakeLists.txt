@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(Lab6)
+project(Lab7)
 
 set(OpenCV_STATIC ON)
 set(OpenCV_RUNTIME vc16)
@@ -14,8 +14,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 file(GLOB SOURCES "*.cpp")
 file(GLOB COMMON "../Common/*.cpp")
-add_executable(Lab6 ${SOURCES} ${COMMON}) 
+add_executable(Lab7 ${SOURCES} ${COMMON}) 
 
-target_link_libraries(Lab6 PRIVATE ${OpenCV_LIBS})
-target_include_directories(Lab6 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${OpenCV_INCLUDE_DIRS})
+target_link_libraries(Lab7 PRIVATE ${OpenCV_LIBS})
+target_include_directories(Lab7 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${OpenCV_INCLUDE_DIRS})
 

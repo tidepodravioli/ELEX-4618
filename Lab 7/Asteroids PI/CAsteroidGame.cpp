@@ -1,9 +1,9 @@
-#include <headers/CAsteroidGame.hpp>
+#include <headers/CAsteroidGamePi.hpp>
 
 #define CVUI_IMPLEMENTATION
 #include <../Common/cvui/cvui.h>
 
-CAsteroidGame::CAsteroidGame(Size canvasSize)
+CAsteroidGamePi::CAsteroidGamePi(Size canvasSize)
 {
     m_canvasSize = canvasSize;
     cvui::init(CASTEROIDGAME_PROGRAM_TITLE);
@@ -12,7 +12,7 @@ CAsteroidGame::CAsteroidGame(Size canvasSize)
     m_port.init_com(9);
 }
 
-void CAsteroidGame::gpio()
+void CAsteroidGamePi::gpio()
 {   
     m_timeLastGPIO = chrono::system_clock::now();
     if(!m_port.checkPort())
@@ -45,7 +45,7 @@ void CAsteroidGame::gpio()
     m_S2pressed = m_port.get_button(CH_SWITCH_S2);
 }
 
-void CAsteroidGame::thread_gpio()
+void CAsteroidGamePi::thread_gpio()
 {
     while(!m_flagEndProgram)
     {
@@ -53,7 +53,7 @@ void CAsteroidGame::thread_gpio()
     }
 }
 
-void CAsteroidGame::setupGPIO()
+void CAsteroidGamePi::setupGPIO()
 {
     if(!m_port.checkPort())
     {
@@ -67,7 +67,7 @@ void CAsteroidGame::setupGPIO()
     m_flagSerialConnected = true;
 }
 
-void CAsteroidGame::update()
+void CAsteroidGamePi::update()
 {
     // the time the update cycle is supposed to finish at
     auto sleepTil = chrono::system_clock::now() + chrono::milliseconds(10);
@@ -153,7 +153,7 @@ void CAsteroidGame::update()
     this_thread::sleep_until(sleepTil);
 }
 
-void CAsteroidGame::thread_update()
+void CAsteroidGamePi::thread_update()
 {
     while(!m_flagEndProgram)
     {
@@ -162,7 +162,7 @@ void CAsteroidGame::thread_update()
 }
 
 
-void CAsteroidGame::draw()
+void CAsteroidGamePi::draw()
 {
     m_canvas = Mat::zeros(m_canvasSize, CV_8UC3);
     m_ship->draw(m_canvas);
@@ -183,12 +183,12 @@ void CAsteroidGame::draw()
     m_flagEndProgram = waitKey(1) == 'q';
 }
 
-void CAsteroidGame::run()
+void CAsteroidGamePi::run()
 {
-    thread gpio_t(&CAsteroidGame::thread_gpio, this);
+    thread gpio_t(&CAsteroidGamePi::thread_gpio, this);
     gpio_t.detach();
 
-    thread update_t(&CAsteroidGame::thread_update, this);
+    thread update_t(&CAsteroidGamePi::thread_update, this);
     update_t.detach();
 
     while(!m_flagEndProgram)
@@ -197,7 +197,7 @@ void CAsteroidGame::run()
     }
 }
 
-void CAsteroidGame::reset()
+void CAsteroidGamePi::reset()
 {
     m_missles.clear();
     m_asteroids.clear();
@@ -208,7 +208,7 @@ void CAsteroidGame::reset()
     m_flagGameReset = false;
 }
 
-void CAsteroidGame::updateShipAccel()
+void CAsteroidGamePi::updateShipAccel()
 {
     // sets the acceleration based on the joystick position
     const int pX = m_currentPosition.percentX();
@@ -227,7 +227,7 @@ void CAsteroidGame::updateShipAccel()
     //cout << m_currentPosition.getX() << ", " << m_currentPosition.getY() << endl;
 }
 
-void CAsteroidGame::drawUI()
+void CAsteroidGamePi::drawUI()
 {
     cvui::beginRow(m_canvas, 10, 10);
     stringstream livesCount;
@@ -264,14 +264,14 @@ void CAsteroidGame::drawUI()
     }
 }
 
-void CAsteroidGame::generateMissle()
+void CAsteroidGamePi::generateMissle()
 {
     CMissle missle;
     missle.set_pos(m_ship->get_pos_head());
     m_missles.push_back(missle);
 }
 
-void CAsteroidGame::updateMissle()
+void CAsteroidGamePi::updateMissle()
 {
     for(int missle = 0; missle < m_missles.size(); missle++)
     {
@@ -286,7 +286,7 @@ void CAsteroidGame::updateMissle()
     }
 }
 
-void CAsteroidGame::generateAsteroid()
+void CAsteroidGamePi::generateAsteroid()
 {
     CAsteroid asteroid(m_canvasSize);
     m_asteroids.push_back(asteroid);
@@ -295,7 +295,7 @@ void CAsteroidGame::generateAsteroid()
 }
 
 // chatgpt generated code
-void CAsteroidGame::drawCenteredText(cv::Mat &img, const std::string &text, int fontFace,
+void CAsteroidGamePi::drawCenteredText(cv::Mat &img, const std::string &text, int fontFace,
     double fontScale, cv::Scalar color, int thickness) {
     int baseline = 0;
     cv::Size textSize = cv::getTextSize(text, fontFace, fontScale, thickness, &baseline);

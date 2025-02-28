@@ -1,4 +1,4 @@
-#include <../Common/CBase4618.hpp>
+#include <../Common/CBase4618Pi.hpp>
 #include <headers/CAsteroid.hpp>
 #include <headers/CMissle.hpp>
 #include <headers/CShip.hpp>
@@ -24,14 +24,14 @@ using namespace std;
  * @brief The Lab 6 Asteroid game, based on the CBase4618 class
  * 
  */
-class CAsteroidGame : CBase4618
+class CAsteroidGamePi : CBase4618Pi
 {
     private:
     /**
      * @brief Construct a new CAsteroidGame object
      * The default constructor is hidden to ensure that CAsteroidGame is constructed with a Size
      */
-    CAsteroidGame();
+    CAsteroidGamePi();
 
     CJoystickPosition m_currentPosition; ///< The current position of the joystick as a CJoystickPosition
     bool m_S1pressed = false; ///< Whether or not S1 was detected to have been pressed
@@ -109,7 +109,7 @@ class CAsteroidGame : CBase4618
      * 
      * @param canvasSize the size of the window to draw the game on
      */
-    CAsteroidGame(Size canvasSize);
+    CAsteroidGamePi(Size canvasSize);
     
     /**
      * @brief Handles the GPIO communication between the program and the microcontroller
