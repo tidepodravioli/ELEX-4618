@@ -1,4 +1,0 @@
-C:/Users/alecb/repo/OOP/Lab 4/build/CMakeFiles/Lab4.dir
-C:/Users/alecb/repo/OOP/Lab 4/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/alecb/repo/OOP/Lab 4/build/CMakeFiles/ZERO_CHECK.dir
-C:/Users/alecb/repo/OOP/Lab 4/build/cvui/CMakeFiles/ALL_BUILD.dir

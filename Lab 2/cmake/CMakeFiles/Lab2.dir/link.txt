@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/Lab2.dir/CGrocery.cpp.o CMakeFiles/Lab2.dir/CGroceryManager.cpp.o CMakeFiles/Lab2.dir/CProduct.cpp.o CMakeFiles/Lab2.dir/getstuff.cpp.o CMakeFiles/Lab2.dir/main.cpp.o -o Lab2  libtinyxml.a 

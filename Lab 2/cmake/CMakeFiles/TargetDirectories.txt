@@ -1,4 +1,0 @@
-/home/banalan4618/source/Lab 2/cmake/CMakeFiles/rebuild_cache.dir
-/home/banalan4618/source/Lab 2/cmake/CMakeFiles/edit_cache.dir
-/home/banalan4618/source/Lab 2/cmake/CMakeFiles/Lab2.dir
-/home/banalan4618/source/Lab 2/cmake/CMakeFiles/tinyxml.dir

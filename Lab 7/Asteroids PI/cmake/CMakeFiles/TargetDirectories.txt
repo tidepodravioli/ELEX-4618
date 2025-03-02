@@ -1,3 +1,0 @@
-/home/banalan4618/source/ELEX-4618/Lab 7/Asteroids PI/cmake/CMakeFiles/rebuild_cache.dir
-/home/banalan4618/source/ELEX-4618/Lab 7/Asteroids PI/cmake/CMakeFiles/edit_cache.dir
-/home/banalan4618/source/ELEX-4618/Lab 7/Asteroids PI/cmake/CMakeFiles/Lab7.dir

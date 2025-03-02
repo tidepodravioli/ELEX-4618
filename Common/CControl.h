@@ -72,7 +72,7 @@ enum DATA_TYPE {TYPE_DIGITAL, TYPE_ANALOG, TYPE_SERVO};
  * 
  */
 class CControl {
-private:
+protected:
     /**
      * @brief Serial object (part of Serial library) that communicates with the microcontroller over a COM port.
      * 
@@ -148,7 +148,7 @@ public:
      * @return true if communication was successful, data was retrieved, and acknowledgement received.
      * @return false otherwise
      */
-    bool get_data (DATA_TYPE type, int channel, int &result);
+    virtual bool get_data (DATA_TYPE type, int channel, int &result);
 
     /**
      * @brief Sets/writes data of the given type to the microcontroller.
@@ -159,7 +159,7 @@ public:
      * @return true if communication was successful, data written, and acknowledgement received.
      * @return false otherwise
      */
-    bool set_data (DATA_TYPE type, int channel, int val);
+    virtual bool set_data (DATA_TYPE type, int channel, int val);
 
     /**
      * @brief Gets the position of the joystick(analog stick) as a raw ADC value
