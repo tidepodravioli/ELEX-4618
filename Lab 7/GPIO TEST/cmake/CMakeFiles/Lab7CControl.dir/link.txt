@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/Lab7CControl.dir/CControlPi.cpp.o CMakeFiles/Lab7CControl.dir/CJoystickPosition.cpp.o CMakeFiles/Lab7CControl.dir/IOTest.cpp.o CMakeFiles/Lab7CControl.dir/getstuff.cpp.o CMakeFiles/Lab7CControl.dir/main.cpp.o -o Lab7CControl  /usr/lib/libpigpio.so -lcurses /usr/lib/aarch64-linux-gnu/libform.so -lpthread 
