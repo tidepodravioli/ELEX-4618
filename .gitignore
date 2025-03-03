@@ -1,5 +1,8 @@
-**/build
-**/cmake
+# Ignore all build directories at any level
+**/cmake/
+**/build/
+**/bin/
 
-**/html
-**/latex
+# Ignore all Doxygen output directories at any level
+**/html/
+**/latex/
