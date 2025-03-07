@@ -1,6 +1,9 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
 
+#define CVUI_IMPLEMENTATION
+#include <cvui.h>
+
 using namespace cv;
 using namespace std;
 
@@ -19,7 +22,7 @@ void detectColor(Mat& image, const string& colorName, Scalar lower, Scalar upper
             float radius;
             minEnclosingCircle(contour, center, radius);
 
-            circle(image, center, (int)radius, Scalar(255, 255, 255), 2); // Draw circle
+            circle(image, center, (int)radius, Scalar(0, 0, 0), 2); // Draw circle
             putText(image, colorName, Point(center.x - 20, center.y - 20),
                     FONT_HERSHEY_SIMPLEX, 0.6, textColor, 2); // Label color
         }
@@ -34,16 +37,46 @@ int main() {
         return -1;
     }
 
-    // Detect colors
-    detectColor(image, "Blue", Scalar(90, 100, 100), Scalar(140, 255, 255), Scalar(0, 0, 0));
-    detectColor(image, "Lime", Scalar(40, 100, 100), Scalar(70, 255, 255), Scalar(0, 0, 0));
-    detectColor(image, "Yellow", Scalar(20, 100, 100), Scalar(30, 255, 255), Scalar(0, 0, 0));
-    detectColor(image, "Orange", Scalar(10, 100, 100), Scalar(20, 255, 255), Scalar(0, 0, 0));
+    cvui::init("Detected Colors");
 
-    // Show result
-    imshow("Detected Colors", image);
-    waitKey(0);
-    destroyAllWindows();
+    int bin1low = 90, 
+        bin1high = 140, 
+        bin2low = 40, 
+        bin2high = 70, 
+        bin3low = 20, 
+        bin3high = 30, 
+        bin4low = 10, 
+        bin4high = 20;
+
+    do
+    {
+        Mat frame = image.clone();
+
+        detectColor(frame, "BIN1", Scalar(bin1low, 100, 100), Scalar(bin1high, 255, 255), Scalar(0, 0, 0)); //BLUE
+        detectColor(frame, "BIN2", Scalar(bin2low, 100, 100), Scalar(bin2high, 255, 255), Scalar(0, 0, 0)); //LIME
+        detectColor(frame, "BIN3", Scalar(bin3low, 100, 100), Scalar(bin3high, 255, 255), Scalar(0, 0, 0)); //YELLOW
+        detectColor(frame, "BIN4", Scalar(bin4low, 100, 100), Scalar(bin4high, 255, 255), Scalar(0, 0, 0)); //ORANGE
+
+        cvui::beginRow(frame, 5, 5, 200, 500);
+        cvui::window(200, 400, "Hue Adjustments");
+        cvui::trackbar(frame, 16, 10, 180, &bin1low, 0, 180);
+        cvui::trackbar(frame, 16, 60, 180, &bin1high, 0, 180);
+
+        cvui::trackbar(frame, 16, 110, 180, &bin2low, 0, 180);
+        cvui::trackbar(frame, 16, 160, 180, &bin2high, 0, 180);
+
+        cvui::trackbar(frame, 16, 210, 180, &bin3low, 0, 180);
+        cvui::trackbar(frame, 16, 260, 180, &bin3high, 0, 180);
+
+        cvui::trackbar(frame, 16, 310, 180, &bin4low, 0, 180);
+        cvui::trackbar(frame, 16, 360, 180, &bin4high, 0, 180);
+        cvui::endRow();
+
+        cvui::imshow("Detected Colors", frame);
+    }
+    while(waitKey(1) != 'q');
+
+    
 
     return 0;
 }
