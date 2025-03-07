@@ -31,11 +31,32 @@ void detectColor(Mat& image, const string& colorName, Scalar lower, Scalar upper
 
 int main() {
     // Load image
-    Mat image = imread("C:\\Users\\alecb\\repo\\OOP\\Lab 8\\ballsorter_test\\testimage.jpg");
-    if (image.empty()) {
-        cerr << "Error: Could not load image!" << endl;
-        return -1;
+    cv::VideoCapture vid;
+    vid.open(0, cv::CAP_V4L2);
+    if (vid.isOpened() == true)
+    {
+        do
+        {
+            Mat image;
+            vid >> image;
+            if (image.empty()) {
+                cerr << "Error: Could not load image!" << endl;
+                return -1;
+            }
+
+            // Detect colors
+            detectColor(image, "Blue", Scalar(90, 100, 100), Scalar(140, 255, 255), Scalar(0, 0, 0));
+            detectColor(image, "Lime", Scalar(40, 100, 100), Scalar(70, 255, 255), Scalar(0, 0, 0));
+            detectColor(image, "Yellow", Scalar(20, 100, 100), Scalar(30, 255, 255), Scalar(0, 0, 0));
+            detectColor(image, "Orange", Scalar(10, 100, 100), Scalar(20, 255, 255), Scalar(0, 0, 0));
+
+            // Show result
+            imshow("Detected Colors", image);
+
+        }
+        while(waitKey(1) != 'q');
     }
+<<<<<<< HEAD
 
     cvui::init("Detected Colors");
 
@@ -79,4 +100,6 @@ int main() {
     
 
     return 0;
+=======
+>>>>>>> d1404986ca416bb0a8b48cfc583d2981179957b7
 }
