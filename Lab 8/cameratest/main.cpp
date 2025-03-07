@@ -22,10 +22,11 @@ void do_video()
             vid >> frame;
             if (frame.empty() == false)
             {
-                cv::cvtColor(frame, edges, cv::COLOR_BGR2GRAY);
-                cv::GaussianBlur(edges, edges, cv::Size(7, 7), 1.5, 1.5);
-                cv::Canny(edges, edges, 0, 30, 3);
-                cv::imshow("edges", edges);
+                //cv::cvtColor(frame, edges, cv::COLOR_BGR2GRAY);
+                //cv::GaussianBlur(edges, edges, cv::Size(7, 7), 1.5, 1.5);
+                //cv::Canny(edges, edges, 0, 30, 3);
+                //cv::imshow("edges", edges);
+                cv::imshow("cameratest", frame);
             }
         }
         while (cv::waitKey(10) != 'q');
