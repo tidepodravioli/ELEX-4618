@@ -7,7 +7,6 @@
 using namespace cv;
 using namespace std;
 
-// Function to detect and label colored balls
 void detectColor(Mat &image, const string& colorName, Scalar lower, Scalar upper, Scalar textColor, vector<Point2f> &centers) {
     Mat hsv, mask;
     cvtColor(image, hsv, COLOR_BGR2HSV);
@@ -17,15 +16,14 @@ void detectColor(Mat &image, const string& colorName, Scalar lower, Scalar upper
     findContours(mask, contours, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
 
     for (const auto& contour : contours) {
-        if (contourArea(contour) > 500) { // Ignore small noise
+        if (contourArea(contour) > 500) {
             Point2f center;
             float radius;
             minEnclosingCircle(contour, center, radius);
             centers.push_back(center);
 
-            circle(image, center, (int)radius, Scalar(0, 0, 0), 2); // Draw circle
-            putText(image, colorName, Point(center.x - 20, center.y - 20),
-                    FONT_HERSHEY_SIMPLEX, 0.6, textColor, 2); // Label color
+            circle(image, center, (int)radius, Scalar(0, 0, 0), 2);
+            putText(image, colorName, Point(center.x - 20, center.y - 20), FONT_HERSHEY_SIMPLEX, 0.6, textColor, 2);
         }
     }
 }

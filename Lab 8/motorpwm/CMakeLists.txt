@@ -10,7 +10,7 @@ find_library(PIGPIOD_IF2_LIB NAMES pigpiod_if2 REQUIRED)
 find_package(Curses REQUIRED)
 include_directories(${CURSES_INCLUDE_DIR})
 
-include_directories(${OpenCV_INCLUDE_DIRS} "../../Common" "../../Common/cvui" "./headers")
+include_directories(${OpenCV_INCLUDE_DIRS} "../../Common" "../../Common/cvui" ".")
 link_directories(${OpenCV_LIB_DIR})
 
 
