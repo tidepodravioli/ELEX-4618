@@ -12,7 +12,14 @@
 #include <iostream>
 #include <string>
 
+#define WIN4618
+#include "ELEX4618-Template/Client.h"
+
 #include "../Common/getstuff.h"
+
+#define E4618_IPADDR_REGEX "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)(\\.(?!$)|$)){4}$"
+#define E4618_CHECKALIVE "G -1 -1\n"
+#define E4618_ALIVEACK "A -1 -1\n"
 
 using namespace std;
 
@@ -20,7 +27,12 @@ using namespace std;
  {
     private:
         void gui_openConnection();
+        CClient m_socket;
+
+        void menu();
+        char get_key();
     public:
         Lab9Client();
         void run();
+        void setup();
  };

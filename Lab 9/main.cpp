@@ -2,6 +2,6 @@
 
 int main()
 {
-    Lab9Client program();
+    Lab9Client program;
     return 0;
 }
