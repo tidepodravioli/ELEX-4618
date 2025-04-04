@@ -11,6 +11,8 @@
 
 #include <iostream>
 #include <string>
+#include <thread>
+#include <chrono>
 
 #define WIN4618
 #include "ELEX4618-Template/Client.h"
@@ -31,6 +33,7 @@ using namespace std;
 
         void menu();
         char get_key();
+        bool get_resp(const string f);
     public:
         Lab9Client();
         void run();

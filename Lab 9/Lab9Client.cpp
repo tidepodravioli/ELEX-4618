@@ -17,11 +17,17 @@ void Lab9Client::run()
         switch(keyPressed)
         {
             case '1':
-                
+                m_socket.tx_str("S 0 1\n");
+                cout << "SET : Turn system ON" << endl;
+
+                if(get_resp("A 0 1\n"))
+                cout << "ACK : System ON" << endl;
+
             break;
 
             case '2':
-
+                m_socket.tx_str("S 0 0\n");
+                cout << "SET : Turn system OFF" << endl;
             break;
 
             case '3':
@@ -98,6 +104,7 @@ void Lab9Client::gui_openConnection()
     m_socket.connect_socket(IPaddr, port);
     
     cout << "Checking connection..." << endl;
+    this_thread::sleep_for(chrono::milliseconds(500));
     m_socket.tx_str(E4618_CHECKALIVE);
     
     string response = "";
@@ -108,4 +115,13 @@ void Lab9Client::gui_openConnection()
         cout << "Connection established!" << endl;
     }
     else cout << "Connection not established" << endl;
+}
+
+bool Lab9Client::get_resp(const string f)
+{
+    string str = "";
+
+    m_socket.rx_str(str);
+    if(f.compare(str) >= 0) return true;
+    else return false;
 }
